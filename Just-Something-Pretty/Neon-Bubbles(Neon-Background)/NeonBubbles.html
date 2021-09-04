@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='utf-8'/>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+		<title>Neon Bubbles</title>
+
+		<!-- this link does not guarantee that png will be in the bar -->
+		<link rel='icon' href='https://github.com/Just-Roma/Web/blob/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/Bubble_dark.png?raw=true'/>
+
+		<!-- stylesheet won't be applied to the document, it just shows the dependency -->
+		<link rel='stylesheet' href='https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/NeonBubbles.css'/>
+
+		<script type='text/plain' src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/Bubbles.js" defer></script>
+		<script type='text/plain' src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/Background.js" defer></script>
+		<script type='text/plain' src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/main.js" defer></script>
+	</head>
+
+	<body>
+
+		<canvas id='Canvas'></canvas>
+
+		<div id='Menu'>
+
+			<h1>Neon Bubbles</h1>
+
+			<div class='SettingsButtons' id='Settings_Background_Colors'>
+				<label for="Background color">Background color(RGB)</label>
+				<input type="range" id="backgroundRed"   name="Background color" min="0" max="255" value="255"/>
+				<input type="range" id="backgroundGreen" name="Background color" min="0" max="255" value="0"/>
+				<input type="range" id="backgroundBlue"  name="Background color" min="0" max="255" value="255"/>
+			</div>
+
+			<div class='SettingsButtons' id='Settings_Bubbles_Colors'>
+				<label for="Bubbles color">Bubbles color(RGB)</label>
+				<input type="range" id="bubblesRed"   name="Bubbles color" min="0" max="255" value="0"/>
+				<input type="range" id="bubblesGreen" name="Bubbles color" min="0" max="255" value="255"/>
+				<input type="range" id="bubblesBlue"  name="Bubbles color" min="0" max="255" value="255"/>
+			</div>
+
+			<div class='SettingsButtons' id='Settings_Number_Of_Bubbles'>
+				<label for="Number of bubbles">Number of bubbles</label>
+				<input type="range" id="Setting_bubbles_number" name="Number of bubbles" min="0" max="50" value="0"/>
+			</div>
+
+			<button id='Change_Background_Button'>Change</button>
+
+		</div>
+
+	</body>
+</html>
