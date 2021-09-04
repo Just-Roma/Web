@@ -1,0 +1,323 @@
+html{
+	width:100%;
+	height:100%;
+	background-color:rgb(0,0,0);
+}
+
+body{
+	width:100%;
+	height:100%;
+	margin:0px;
+}
+
+/* Chage the scrollbar */
+::-webkit-scrollbar {
+	background-color:rgb(0,0,0);
+	display:inline-block;
+	width:2px;
+	height:0px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #ff0;
+	border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+#Canvas{
+	width:84%; /* It's 1% less than it should be, because otherwise input tags twitch in Opera */
+	display: inline-block;
+}
+
+#Menu{
+	width:14%;
+	position:fixed;
+	display: inline-block;
+}
+
+h1{
+	width:100%;
+	text-align: center;
+	font-size:calc(1.5vw + 1vh);
+	color:rgb(255,255,155);
+	text-shadow:
+		0 0 7px  #ff0,
+		0 0 10px #ff0,
+		0 0 15px #ff0,
+		0 0 25px #ff0,
+		0 0 32px #ff0,
+		0 0 42px #ff0;
+	display: inline-block;
+}
+
+.SettingsButtons{
+	width:100%;
+	padding:0px;
+	font-size:calc(0.8vw + 0.8vh);
+	margin:0px;
+	text-align: center;
+	display:block;
+	color:rgb(255,255,0);
+}
+
+/* Based on https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/ */
+input[type=range] {
+	-webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+	width: 100%; /* Specific width is required for Firefox. */
+}
+
+input[type=range]:focus {
+	outline: none; /* Apperantly an outline exists somewhere */
+}
+
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+}
+
+/* For edge */
+input[type=range]::-ms-track{
+	width: 100%;
+	cursor: pointer;
+
+	/* Hides the slider so custom styles can be added */
+	background: transparent; 
+	border-color: transparent;
+	color: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb{
+	height: 2vh;
+	width: 2vw;
+	border-radius: 5px;
+	cursor: pointer;
+	margin: 0px;
+	padding:0px;
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb{
+	height: 2vh;
+	width: 2vw;
+	border-radius: 5px;
+	cursor: pointer;
+	margin: 0px;
+	padding:0px;
+}
+
+input{
+	background-color:rgb(0,0,0);
+}
+
+/* The thumbs(draggable things) are colored here*/
+#backgroundRed::-webkit-slider-thumb, #bubblesRed::-webkit-slider-thumb{
+	background-image: radial-gradient(rgb(255,0,0), black 80%);
+}
+#backgroundRed::-moz-range-thumb, #bubblesRed::-moz-range-thumb{
+	background-image: radial-gradient(rgb(255,0,0), black 80%);
+}
+
+#backgroundGreen::-webkit-slider-thumb, #bubblesGreen::-webkit-slider-thumb{
+	background-image: radial-gradient(rgb(0,255,0), black 80%);
+}
+#backgroundGreen::-moz-range-thumb, #bubblesGreen::-moz-range-thumb{
+	background-image: radial-gradient(rgb(0,255,0), black 80%);
+}
+
+#backgroundBlue::-webkit-slider-thumb, #bubblesBlue::-webkit-slider-thumb{
+	background-image: radial-gradient(rgb(0,0,255), black 80%);
+}
+#backgroundBlue::-moz-range-thumb, #bubblesBlue::-moz-range-thumb{
+	background-image: radial-gradient(rgb(0,0,255), black 80%);
+}
+
+#Setting_bubbles_number::-webkit-slider-thumb{
+	background-image: radial-gradient(rgb(255,255,0), black 80%);
+}
+#Setting_bubbles_number::-moz-range-thumb{
+	background-image: radial-gradient(rgb(255,255,0), black 80%);
+}
+
+/* Separate the blocks from each other */
+#Settings_Background_Colors{
+	margin-top:2vh;
+	margin-bottom:4vh;
+	line-height:3.5vh;
+}
+#Settings_Bubbles_Colors{
+	margin-bottom:4vh;
+	line-height:3.5vh;
+}
+#Settings_Number_Of_Bubbles{
+	margin-bottom:4vh;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 2.6vh;
+	cursor: pointer;
+	box-shadow: 0px 0px 2px #FFFF00;
+	background-color: #000000;
+	border:calc(0.1vw + 0.1vh) solid #FFFF00;
+	border-radius: 6px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track{
+  background: #000000;
+}
+
+input[type=range]::-moz-range-track {
+	width: 100%;
+	height: 2.6vh;
+	cursor: pointer;
+	box-shadow: 0px 0px 2px #FFFF00;
+	background-color: #000000;
+	border:calc(0.1vw + 0.1vh) solid #FFFF00;
+	border-radius: 6px;
+}
+
+#Change_Background_Button{
+	width:100%;
+	height:4vh;
+	margin:0.2vw;
+	border:none;
+	padding:0px;
+	cursor:pointer;
+	font-size:calc(0.9vw + 0.9vh);
+	background: #000;
+	text-shadow:
+		0 0 0px  #000,
+		0 0 1px  #000,
+		0 0 2px  #000;
+
+	box-shadow:
+		inset 0 0 4px #ff0,
+		0 0 0px  #ff0,
+		0 0 1px  #ff0,
+		0 0 2px  #ff0,
+		0 0 3px  #ff0,
+		0 0 5px  #ff0;
+
+	animation: backAndForth 5s infinite;
+}
+
+/* Change the button's appearance on click. */
+#Change_Background_Button:active{
+	box-shadow:
+		inset 0 0 4px #ff0,
+		0 0 0px  #ff0,
+		0 0 1px  #ff0,
+		0 0 2px  #ff0,
+		0 0 3px  #ff0,
+		0 0 4px  #ff0,
+		0 0 5px  #ff0,
+		0 0 6px  #ff0,
+		0 0 7px  #ff0,
+		0 0 8px  #ff0;
+}
+/* Please don't laugh at the code below, it works. Certainly can be reduced though. */
+@keyframes backAndForth{
+	0%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 0%,  rgba(255,255,0,0));}
+	1%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 2%,  rgba(255,255,0,0));}
+	2%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 4%,  rgba(255,255,0,0));}
+	3%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 6%,  rgba(255,255,0,0));}
+	4%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 8%,  rgba(255,255,0,0));}
+	5%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 10%, rgba(255,255,0,0));}
+	6%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 12%, rgba(255,255,0,0));}
+	7%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 14%, rgba(255,255,0,0));}
+	8%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 16%, rgba(255,255,0,0));}
+	9%   {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 18%, rgba(255,255,0,0));}
+	10%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 20%, rgba(255,255,0,0));}
+	11%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 22%, rgba(255,255,0,0));}
+	12%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 24%, rgba(255,255,0,0));}
+	13%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 26%, rgba(255,255,0,0));}
+	14%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 28%, rgba(255,255,0,0));}
+	15%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 30%, rgba(255,255,0,0));}
+	16%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 32%, rgba(255,255,0,0));}
+	17%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 34%, rgba(255,255,0,0));}
+	18%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 36%, rgba(255,255,0,0));}
+	19%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 38%, rgba(255,255,0,0));}
+	20%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 40%, rgba(255,255,0,0));}
+	21%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 42%, rgba(255,255,0,0));}
+	22%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 44%, rgba(255,255,0,0));}
+	23%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 46%, rgba(255,255,0,0));}
+	24%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 48%, rgba(255,255,0,0));}
+	25%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 50%, rgba(255,255,0,0));}
+	26%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 52%, rgba(255,255,0,0));}
+	27%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 54%, rgba(255,255,0,0));}
+	28%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 56%, rgba(255,255,0,0));}
+	29%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 58%, rgba(255,255,0,0));}
+	30%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 60%, rgba(255,255,0,0));}
+	31%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 62%, rgba(255,255,0,0));}
+	32%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 64%, rgba(255,255,0,0));}
+	33%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 66%, rgba(255,255,0,0));}
+	34%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 68%, rgba(255,255,0,0));}
+	35%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 70%, rgba(255,255,0,0));}
+	36%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 72%, rgba(255,255,0,0));}
+	37%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 74%, rgba(255,255,0,0));}
+	38%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 76%, rgba(255,255,0,0));}
+	39%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 78%, rgba(255,255,0,0));}
+	40%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 80%, rgba(255,255,0,0));}
+	41%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 82%, rgba(255,255,0,0));}
+	42%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 84%, rgba(255,255,0,0));}
+	43%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 86%, rgba(255,255,0,0));}
+	44%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 88%, rgba(255,255,0,0));}
+	45%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 90%, rgba(255,255,0,0));}
+	46%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 92%, rgba(255,255,0,0));}
+	47%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 94%, rgba(255,255,0,0));}
+	48%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 96%, rgba(255,255,0,0));}
+	49%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 98%, rgba(255,255,0,0));}
+	50%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 100%,rgba(255,255,0,0));}
+	51%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 98%, rgba(255,255,0,0));}
+	52%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 96%, rgba(255,255,0,0));}
+	53%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 94%, rgba(255,255,0,0));}
+	54%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 92%, rgba(255,255,0,0));}
+	55%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 90%, rgba(255,255,0,0));}
+	56%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 88%, rgba(255,255,0,0));}
+	57%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 86%, rgba(255,255,0,0));}
+	58%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 84%, rgba(255,255,0,0));}
+	59%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 82%, rgba(255,255,0,0));}
+	60%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 80%, rgba(255,255,0,0));}
+	61%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 78%, rgba(255,255,0,0));}
+	62%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 76%, rgba(255,255,0,0));}
+	63%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 74%, rgba(255,255,0,0));}
+	64%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 72%, rgba(255,255,0,0));}
+	65%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 70%, rgba(255,255,0,0));}
+	66%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 68%, rgba(255,255,0,0));}
+	67%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 66%, rgba(255,255,0,0));}
+	68%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 64%, rgba(255,255,0,0));}
+	69%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 62%, rgba(255,255,0,0));}
+	70%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 60%, rgba(255,255,0,0));}
+	71%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 58%, rgba(255,255,0,0));}
+	72%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 56%, rgba(255,255,0,0));}
+	73%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 54%, rgba(255,255,0,0));}
+	74%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 52%, rgba(255,255,0,0));}
+	75%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 50%, rgba(255,255,0,0));}
+	76%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 48%, rgba(255,255,0,0));}
+	77%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 46%, rgba(255,255,0,0));}
+	78%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 44%, rgba(255,255,0,0));}
+	79%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 42%, rgba(255,255,0,0));}
+	80%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 40%, rgba(255,255,0,0));}
+	81%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 38%, rgba(255,255,0,0));}
+	82%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 36%, rgba(255,255,0,0));}
+	83%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 34%, rgba(255,255,0,0));}
+	84%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 32%, rgba(255,255,0,0));}
+	85%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 30%, rgba(255,255,0,0));}
+	86%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 28%, rgba(255,255,0,0));}
+	87%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 26%, rgba(255,255,0,0));}
+	88%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 24%, rgba(255,255,0,0));}
+	89%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 22%, rgba(255,255,0,0));}
+	90%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 20%, rgba(255,255,0,0));}
+	91%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 18%, rgba(255,255,0,0));}
+	92%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 16%, rgba(255,255,0,0));}
+	93%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 14%, rgba(255,255,0,0));}
+	94%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 12%, rgba(255,255,0,0));}
+	95%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 10%, rgba(255,255,0,0));}
+	96%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 8%,  rgba(255,255,0,0));}
+	97%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 6%,  rgba(255,255,0,0));}
+	98%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 4%,  rgba(255,255,0,0));}
+	99%  {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 2%,  rgba(255,255,0,0));}
+	100% {background-image: linear-gradient(to right, rgba(255,255,0,0), rgba(255,255,0,1) 0%,  rgba(255,255,0,0));}
+}
