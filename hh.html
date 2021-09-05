@@ -3,17 +3,9 @@
 	<head>
 		
 		<script>
-			var worker; //= new Worker('http://xyz/FSWorker.js');
-var xhr = new XMLHttpRequest();
-xhr.open("GET", 'https://raw.githubusercontent.com/Just-Roma/Web/main/test.js');
-xhr.responseType = 'blob';
-xhr.onload = function(e) {
-    var blob = this.response;
-    worker = new Worker(window.URL.createObjectURL(blob));
-   
-};
 
-  console.log('Message received from worker');
+
+ var worker = new Worker("test.js");
 
 </script>
 	</head>
