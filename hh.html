@@ -4,6 +4,11 @@
 		
 		<script>
 const worker = new Worker(URL.createObjectURL(new Blob(["(https://raw.githubusercontent.com/Just-Roma/Web/main/test.js)()"])));
+			worker.postMessage([3,8]);
+			worker.onmessage = function(e) {
+  result.textContent = e.data;
+  console.log('Message received from worker');
+}
 </script>
 	</head>
 
