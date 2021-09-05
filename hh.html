@@ -3,7 +3,7 @@
 	<head>
 		
 		<script>
-const worker = new Worker("raw.githubusercontent.com/Just-Roma/Web/main/test.js");
+const worker = new Worker("https://raw.githubusercontent.com/Just-Roma/Web/main/test.js");
 			worker.postMessage([3,8]);
 			worker.onmessage = function(e) {
   result.textContent = e.data;
