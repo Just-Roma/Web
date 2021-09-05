@@ -12,9 +12,7 @@ xhr.onload = function(e) {
     worker = new Worker(window.URL.createObjectURL(blob));
     fs_ready(); // do more stuff here
 };
-			worker.postMessage([3,8]);
-			worker.onmessage = function(e) {
-  result.textContent = e.data;
+
   console.log('Message received from worker');
 }
 </script>
