@@ -10,7 +10,7 @@
 		<!-- <script type='text/javascript' src="C:/Users/df/Desktop/test.js" defer></script> -->
 		<!-- <script type='text/javascript' src="C:/Users/df/Desktop/flamefractal.js" defer></script> -->
 		<script>
-var myWorker = new Worker('/?https://github.com/Just-Roma/Web/blob/main/test.js');
+var worker = new Worker(URL.createObjectURL(new Blob(["(https://raw.githubusercontent.com/Just-Roma/Web/main/test.js)()"], {type: 'text/javascript'})));
 </script>
 	</head>
 
