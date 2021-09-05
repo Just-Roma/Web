@@ -3,7 +3,15 @@
 	<head>
 		
 		<script>
-const worker = new Worker("https://raw.githubusercontent.com/Just-Roma/Web/main/test.js");
+			var worker; //= new Worker('http://xyz/FSWorker.js');
+var xhr = new XMLHttpRequest();
+xhr.open("GET", 'https://raw.githubusercontent.com/Just-Roma/Web/main/test.js');
+xhr.responseType = 'blob';
+xhr.onload = function(e) {
+    var blob = this.response;
+    worker = new Worker(window.URL.createObjectURL(blob));
+    fs_ready(); // do more stuff here
+};
 			worker.postMessage([3,8]);
 			worker.onmessage = function(e) {
   result.textContent = e.data;
