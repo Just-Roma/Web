@@ -93,7 +93,7 @@ function assignCoeffs(size){
 
 let coeffs=assignCoeffs(7);//4-10
 const blob = new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" })
-let yy;
+
 let qq=performance.now();
 Promise.all(Array.from({length: Math.max(navigator.hardwareConcurrency-1,1)}, () => new Promise((resolve, reject) => {
     const worker = new Worker(URL.createObjectURL(blob));
