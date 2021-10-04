@@ -14,7 +14,7 @@ Canvas.height = window.innerHeight;
 let width = Canvas.width;
 let height = Canvas.height;
 
-class Matrix{
+class Matrix2{
 
 		constructor(width, height) {
 			this.width = width;
@@ -104,7 +104,7 @@ Promise.all(Array.from({length: Math.max(navigator.hardwareConcurrency-1,1)}, ()
   .then(results => {
 console.log(performance.now()-qq);
 		let O_o = ctx.createImageData(width, height);
-		let fractalFlame = new Matrix(width, height);
+		let fractalFlame = new Matrix2(width, height);
 		let max = 0;
 		let gamma = 3;
 		for(let fractal=results.length-1;fractal>=0;fractal--){
