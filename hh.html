@@ -1,17 +1,175 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html style="background-color:black;">
 	<head>
-		
-		<script>
+		<link rel="stylesheet" href="C:/Users/df/Desktop/FractalFlame.css"/>
+		<script id="worker" type="javascript/worker">
 
+			class Matrix{
 
-var worker = new Worker(URL.createObjectURL(new Blob(["(https://raw.githubusercontent.com/Just-Roma/Web/main/test.js)()"], {type: 'text/javascript'})));
+				constructor(width, height) {
+					this.width = width;
+					this.height = height;
+					this.entries = Array.from({length: width*height*4}, () => 0); // Each entry stores RGB(first 3 positions) and a counter(how many times a pixel was hit).
+				}
+				
+				get(x, y) {return this.entries[y*this.width*4 + x*4+3];}	
 
-</script>
+				set(x, y, value){
+					this.entries[y*this.width*4 + x*4]   = Math.round((this.entries[y*this.width*4 + x*4] + value[0])/2);
+					this.entries[y*this.width*4 + x*4+1] = Math.round((this.entries[y*this.width*4 + x*4+1] + value[1])/2);
+					this.entries[y*this.width*4 + x*4+2] = Math.round((this.entries[y*this.width*4 + x*4+2] + value[2])/2);
+				}
+
+				// Increases the counter.
+				inc(x, y) {this.entries[y*this.width*4 + x*4+3]++;}
+			}
+
+			let Functions = {
+
+			/*'Linear': {'func': function(x, y){
+				return [x, y];
+			}, 'resiseX', 'resizeY'},*/
+      'Linear': function(x, y){
+				return [x, y];
+			},
+
+			'Sinusoidal': function(x, y){
+				return [Math.sin(x), Math.sin(y)];
+			},
+
+			'Spherical': function(x, y){
+				let rSquare = x**2 + y**2;
+				return [x/rSquare, y/rSquare];
+			},
+
+			'Swirl': function(x, y){
+					let rSquare = x**2 + y**2;
+					return [x*Math.sin(rSquare) - y*Math.cos(rSquare), x*Math.cos(rSquare) + y*Math.sin(rSquare)];
+			},
+
+			'Horseshoe': function(x, y){
+				let r = Math.sqrt(x**2 + y**2);
+				return [(x-y)*(x+y)/r, 2*x*y/r];
+			},
+
+			'Polar': function(x, y){
+				return [Math.atan2(x,y)/Math.PI, Math.sqrt(x**2 + y**2)-1];
+			},
+
+			'Handkerchief': function(){
+				let r = Math.sqrt(x**2 + y**2);
+				let Teta = Math.atan2(x,y);
+				return [r*Math.sin(Teta+r), r*Math.cos(Teta-r)];
+			},
+
+			'Heart': function(){
+				let out = function(x,y){
+					let r = Math.sqrt(x**2 + y**2);
+					let Teta = Math.atan(x/y);
+					return [r*Math.sin(Teta*r), -r*Math.cos(Teta*r)];
+				}
+				
+				return out;
+			},
+
+			'Disc': function(){
+				let out = function(x,y){
+					let r = Math.PI*Math.sqrt(x**2 + y**2);
+					let Teta = Math.atan2(x,y)/Math.PI;
+					return [Teta*Math.sin(r), Teta*Math.cos(r)];
+				}
+				
+				return out;
+			},
+			//...............................
+			'Bent': function(){
+				let out = function(x,y){
+					if (x >= 0 && y >= 0) return [x,y];
+					else if (x < 0 && y >= 0) return [2*x,y];
+					else if (x >= 0 && y < 0) return [x,y/2];
+					else return [2*x,y/2];
+				};
+				
+				return out;
+			}}
+
+			let yy=Functions["Swirl"];
+			self.onmessage = function(message){
+				let width  = message.data[0];
+				let height = message.data[1];
+				let coefs  = message.data[2][0];
+				let len = coefs.length-1;
+				let rgb = message.data[2][1];
+				let fractalFlame = new Matrix(width, height);
+				let X, Y, cur_dot, chosenF, ranCoef;
+        for (let ooo = 0; ooo < 20; ooo++){
+          for (let i = 0; i < 1000000; i++){
+
+            X = Math.random()*2-1;
+            Y = Math.random()*2-1;
+
+            for (let j = -20; j < 0; j++){
+              ranCoef = Math.round(Math.random()*len);
+              [X,Y] = yy(coefs[ranCoef][0]*X + coefs[ranCoef][1]*Y + coefs[ranCoef][2], coefs[ranCoef][3]*X+ coefs[ranCoef][4]*Y + coefs[ranCoef][5]);
+            }
+  //2.5 5 lin
+            cur_dot = [width-Math.floor((3-X)/6*width), height-Math.floor((2-Y)/4*height)];
+            
+            if (cur_dot[0] >= 0 && cur_dot[0] < width && cur_dot[1] >= 0 && cur_dot[1] < height){ 
+              fractalFlame.set(cur_dot[0],cur_dot[1], rgb[ranCoef]);
+              fractalFlame.inc(cur_dot[0],cur_dot[1]);
+            }
+          }
+          self.postMessage(fractalFlame);
+        };
+      }
+
+		</script>
+		<script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/test.js" defer></script>
 	</head>
 
 	<body>
+    <canvas id='Canvas'></canvas>
 
-		
+    <div id='Menu'>
+
+      <h1>Fractal flame</h1>
+      <div id="selectDiv">
+        <label for="functions">Fractal type:</label>
+        <select name="functions" id="select">
+          <option value='Random'>Random</option>
+          <option value='Linear'>Linear</option>
+          <option value='Sinusoidal'>Sinusoidal</option>
+          <option value='Spherical'>Spherical</option>
+          <option value='Swirl'>Swirl</option>
+          <option value='Horseshoe'>Horseshoe</option>
+          <option value='Polar'>Polar</option>
+          <option value='Handkerchief'>Handkerchief</option>
+          <option value='Heart'>Heart</option>
+          <option value='Disc'>Disc</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+          <option value="Random">Random</option>
+          <option value="Linear">Linear</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+          <option value="Random">Random</option>
+          <option value="Linear">Linear</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+          <option value="Random">Random</option>
+          <option value="Linear">Linear</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+        </select>
+      <div>
+      <div id="coresDiv">
+        <label for="cores">Number of cores:</label>
+        <select name="functions" id="cores">
+        </select>
+      <div>
+      <button id='ButtonCreate'>Create</button>
+
+    </div>
 	</body>
 </html>
