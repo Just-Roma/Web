@@ -82,7 +82,7 @@ function workIt(event){
     bitMap.data[i-1] = fractalFlame.entries[i-1]*GammaMod;
   }
   common.ctx.putImageData(bitMap, 0, 0); // print the image on the canvas.
-  if(common.disabled && document.getElementById('ButtonInfo').innerHTML == 'Info'){
+  if(common.disabled && common.allowed){
     document.getElementById('ButtonCreate').disabled='';
     common.disabled = false;
     document.getElementById('ButtonCreate').style.cursor = 'pointer';
@@ -126,7 +126,8 @@ Object.assign(common,
               'blob'  : new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
               'worker': null,
               'numberOfCoeffs' : Number(document.getElementById('selectAffine').value),
-              'disabled': false});
+              'disabled': false,
+              'allowed': true});
               
 common.worker = new Worker(URL.createObjectURL(common.blob));
 common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
@@ -233,12 +234,13 @@ document.getElementById('ButtonCreate').addEventListener('click',
   
 document.getElementById('ButtonInfo').addEventListener('click', 
   () => {
-    if(document.getElementById('ButtonInfo').innerHTML == 'Info'){
+    if(common.allowed){
       document.getElementById('infoPage').style.display = 'inline-block';
       document.getElementById('Canvas').style.display = 'none';
       document.getElementById('ButtonCreate').disabled = 'true';
       document.getElementById('ButtonCreate').style.cursor = 'default';
       document.getElementById('ButtonInfo').innerHTML = 'Back';
+      common.allowed = false;
     }
     else{
       document.getElementById('infoPage').style.display = 'none';
@@ -246,5 +248,6 @@ document.getElementById('ButtonInfo').addEventListener('click',
       document.getElementById('ButtonCreate').disabled = '';
       document.getElementById('ButtonCreate').style.cursor = 'pointer';
       document.getElementById('ButtonInfo').innerHTML = 'Info';
+      common.allowed = true;
     }
   });
