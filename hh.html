@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="background-color:black;">
+<html style="background-color:black;" lang="en">
 	<head>
 		<link rel="stylesheet" href="https://raw.githubusercontent.com/Just-Roma/Web/main/FractalFlame.css"/>
 		<script id="worker" type="javascript/worker">
@@ -302,15 +302,34 @@
 
 	<body>
   
-    <div id='changeOrientation'>
-      <h1>Please rotate your phone.</h1>
-    </div>
-
-    <div id='startPage'>
-
-    </div>
+    <h1 id="rotationNote">Please rotate your device for a better experience.</h1>
     
     <div id='mainPage'>
+
+      <div id='infoPage'>
+        <h2>Fractal flames</h2>
+        <p class="InfoParagraph"> The main intention of this page is to create aesthetically pleasing images. 
+        Though most of results will be interesting/beautuful, there is a chance that something weird/ugly will be produced.
+        In that case just click on the "Create" button and wait for the next result.
+        The creation of images is extremely slow, so to get a good result you have to wait some time. Depending on the fractal type it can take up 
+        to 1 minute. Every few seconds the image is modified, so meanwhile you can just watch the creation process. There are several parameters you can play with:
+        </p>
+        <ol id='list'>
+          <li>"Fractal type" defines the function, which will be used to produce the images. It is the main part. Changing it does not automatically create new image.</li>
+          <br>
+          <li>"Magic number" defines the number of affine coefficient sets. These are geometrical transformations. "Magic number" affects the appearence of the final image. Changing it does not automatically create new image.</li>
+          <br>
+          <li>"Gamma" parameter can be used to increase/decrease the brightness of the picture. Changing it does not automatically create new image.</li>
+          <br>
+          <li>"Create" button creates a new image. Every time you press it, it becomes shortly disabled untill the first frame is done. After that you can use it again.</li>
+          <br>
+          <li>"Info"/"Back" changes between this Info menu and the canvas. While reading this an image is being created. When you get back, it will be more attractive.
+        </ol>
+        <p class="InfoParagraph">
+        Unfortunately there is no way to predict how the next image will look like. Each new picture gets its own random affine transformations and colors.
+        There is practically no chance to get the same image again. Although most images will be build according to some pattern, some will be extraordinary.
+        </p>
+      </div>
 
       <canvas id='Canvas'></canvas>
 
@@ -371,7 +390,7 @@
             <!-- <option value='Twintrian'>Twintrian</option> -->
             <option value='Cross'>Cross</option>
           </select>
-        <div>
+        </div>
 
         <div class="selectDiv">
           <label for="affines">Magic number:</label>
@@ -394,15 +413,17 @@
             <option value='19'>19</option>
             <option value='20' selected='selected'>20</option>
           </select>
-        <div>
+        </div>
 
         <div class="selectDiv" id="selectGammaDiv">
           <label for="gamma">Gamma:</label>
           <select name="gamma" id="selectGamma">
           </select>
-        <div>
+        </div>
 
-        <button id='ButtonCreate'>Create</button>
+        <button class="Button" id='ButtonCreate'>Create</button>
+
+        <button class="Button" id='ButtonInfo'>Info</button>
 
       </div>
     </div>
