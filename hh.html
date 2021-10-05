@@ -119,13 +119,106 @@
 					else return [2*x,y/2];
 				}, 'scaleX': 12, 'scaleY': 6},
 
-      'Waves': {'func': function(x, y){
-        return [x + coefs[ranCoef][1]*Math.sin(y/coefs[ranCoef][2]**2), 
-                y + coefs[ranCoef][4]*Math.sin(x/coefs[ranCoef][5]**2)];
+      'Waves': {'func': function(x, y, a, b, c, d, e, f){
+        return [x + b*Math.sin(y/c**2), y + e*Math.sin(x/f**2)];
+			}, 'scaleX': 6, 'scaleY': 6},
+
+      'Fisheye': {'func': function(x, y){
+        let r = rFunc(x, y);
+        return [2*y/(r+1), 2*x/(r+1)];
 			}, 'scaleX': 4, 'scaleY': 4},
+
+      'Popcorn': {'func': function(x, y, a, b, c, d, e, f){
+        return [x + c*Math.sin(Math.tan(3*y)), y + f*Math.sin(Math.tan(3*x))];
+			}, 'scaleX': 7, 'scaleY': 7},
+
+      'Exponential': {'func': function(x, y){
+        return [Math.exp(x-1) * Math.cos(Math.PI*y), Math.exp(x-1) * Math.sin(Math.PI*y)];
+			}, 'scaleX': 3, 'scaleY': 3},
+
+      'Power': {'func': function(x, y){
+      let Teta = tetaFunc(x, y);
+      let r = Math.pow(rFunc(x, y), Math.sin(Teta));
+        return [r * Math.cos(Teta), r * Math.sin(Teta)];
+			}, 'scaleX': 5, 'scaleY': 5},
+
+      'Cosine': {'func': function(x, y){
+        return [Math.cos(Math.PI*x)*Math.cosh(y), -Math.sin(Math.PI*x)*Math.sinh(y)];
+			}, 'scaleX': 5, 'scaleY': 4},
+
+      'Rings': {'func': function(x, y, a, b, c, d, e, f){
+        let r = rFunc(x, y);
+        let Teta = tetaFunc(x, y);
+        let par = ((r+c*c) % (2*c*c)) - c*c + r*(1-c*c);
+        return [par*Math.cos(Teta), par*Math.sin(Teta)];
+			}, 'scaleX': 5, 'scaleY': 3},
+
+      'Fan': {'func': function(x, y, a, b, c, d, e, f){
+        let t = Math.PI*c*c;
+        let r = rFunc(x, y);
+        let Teta = tetaFunc(x, y);
+        if((Teta+f)%t > t/2) return[r*Math.cos(Teta-t/2), r*Math.sin(Teta-t/2)];
+        else return[r*Math.cos(Teta+t/2), r*Math.sin(Teta+t/2)];
+			}, 'scaleX': 6, 'scaleY': 6},
+
+      /*'Blob': {'func': function(x, y, a, b, c, d, e, f, p1, p2, p3){ works weird
+        let r = rFunc(x, y);
+        let Teta = tetaFunc(x, y);
+        let par = r*(p2+((p1-p2)/2)*(Math.sin(p3*Teta)+1));
+        return[par*Math.cos(Teta), par*Math.sin(Teta)];
+			}, 'scaleX': 2, 'scaleY': 2}*/
+
+      'PDJ': {'func': function(x, y, a, b, c, d, e, f, p1, p2, p3, p4){
+        return[Math.sin(p1*y) - Math.cos(p2*x), Math.sin(p3*x) - Math.cos(p4*y)];
+			}, 'scaleX': 3, 'scaleY': 4},
+
+      'PDJ2': {'func': function(x, y, a, b, c, d){
+        return[Math.sin(a*y) - Math.cos(b*x), Math.sin(c*x) - Math.cos(d*y)];
+			}, 'scaleX': 3, 'scaleY': 4},
+
+      'Eyefish': {'func': function(x, y){
+        let r = 2/(rFunc(x, y) + 1);
+        return[r*x, r*y];
+			}, 'scaleX': 8, 'scaleY': 4},
+
+      'Bubble': {'func': function(x, y){
+        let r = 4/(rSquareFunc(x, y) + 4);
+        return[r*x, r*y];
+			}, 'scaleX': 8, 'scaleY': 4},
+
+      'Cylinder': {'func': function(x, y){
+        return[Math.sin(x), y];
+			}, 'scaleX': 8, 'scaleY': 4},
+
+      /* Twintrian has a vector filled with 1, since this function does not create something extremely beautiful
+      'Twintrian': {'func': function(x, y){
+        let r = rFunc(x, y);
+        let runif = Math.random();
+        let t = Math.log10(Math.sin(runif*r)**2) + Math.cos(runif*r);
+        return[t*x, x*(t-Math.PI*Math.sin(runif*r))];
+			}, 'scaleX': 12, 'scaleY': 12},*/
+
+      /*'Square': {'func': function(x, y){ there is probably a mistake in the paper
+        let runif1 = Math.random();
+        let runif2 = Math.random();
+        return[(runif1-0.5)*x, (runif2-0.5)*y];
+			}, 'scaleX': 2, 'scaleY': 2},*/
+
+      /*'Arch': {'func': function(x, y){
+        let runif = 0.1//Math.random();
+        return[Math.sin(runif*Math.PI),Math.sin(runif*Math.PI)**2/Math.cos(runif*Math.PI)];
+			}, 'scaleX': 12, 'scaleY': 12},*/
+
+      'Tangent': {'func': function(x, y){
+        return[Math.sin(x)/Math.cos(y), Math.tan(y)];
+			}, 'scaleX': 12, 'scaleY': 12},
+
+      'Cross': {'func': function(x, y){
+        let par = Math.sqrt(1/(x*x-y*y)**2);
+        return[par*x, par*y];
+			}, 'scaleX': 12, 'scaleY': 12}
+
       }
-
-
 			self.onmessage = function(message){
 
 				let width  = message.data[0];
@@ -138,7 +231,7 @@
         let chosenFunc = Functions[message.data[3]].func;
         let scaleX = Functions[message.data[3]].scaleX;
         let scaleY = Functions[message.data[3]].scaleY;
-        let offsetX, offsetY;
+        let offsetX, offsetY, p1, p2, p3, p4;
 
         switch(message.data[3]){
 
@@ -150,12 +243,32 @@
                              offsetY = -Math.floor(height/3);
                              break;
 
+          /*case 'Blob': offsetX = -Math.round(width/2);;
+                       offsetY = 0;
+                       p1 = 0.5;//Math.random();
+                       p2 = 0.5//;Math.random();
+                       p3 = Math.random();
+                       break;*/
+          case 'PDJ': offsetX = Math.round(width*0.2);
+                      offsetY = Math.round(height*0.15);
+                      let ran= Math.round(Math.random()*len);
+                      p1 = coefs[ran][0];
+                      p2 = coefs[ran][1];
+                      p3 = coefs[ran][2];
+                      p4 = coefs[ran][3];
+                      break;
+
+          case 'PDJ2':offsetX = Math.round(width*0.3);
+                      offsetY = Math.round(height*0.15);
+                      break;
+
+
           default: offsetX = 0;
                    offsetY = 0;
         }
 
-        for (let frame = 0; frame < 250; frame++){
-          for (let point = 0; point < 100000; point++){
+        for (let frame = 0; frame < 50; frame++){
+          for (let point = 0; point < 1000000; point++){
 
             // Create a  a random point in the bi-unit square.
             X = Math.random()*2-1;
@@ -164,7 +277,10 @@
             // Iterate 20 times without plotting to get closer to the solution.
             for (let j = -20; j < 0; j++){
               ranCoef = Math.round(Math.random()*len);
-              [X,Y] = chosenFunc(coefs[ranCoef][0]*X + coefs[ranCoef][1]*Y + coefs[ranCoef][2], coefs[ranCoef][3]*X+ coefs[ranCoef][4]*Y + coefs[ranCoef][5]);
+              [X,Y] = chosenFunc(coefs[ranCoef][0]*X + coefs[ranCoef][1]*Y + coefs[ranCoef][2], 
+                                 coefs[ranCoef][3]*X + coefs[ranCoef][4]*Y + coefs[ranCoef][5],
+                                 coefs[ranCoef][0], coefs[ranCoef][1], coefs[ranCoef][2], // These are dependent parameters
+                                 coefs[ranCoef][3], coefs[ranCoef][4], coefs[ranCoef][5], p1, p2, p3, p4);
             }
 
             cur_dot = [width-Math.floor((scaleX/2-X)/scaleX*width) + offsetX, height-Math.floor((scaleY/2-Y)/scaleY*height) + offsetY];
@@ -185,6 +301,11 @@
 	</head>
 
 	<body>
+  
+    <div id='changeOrientation'>
+      <h1>Please rotate your phone.</h1>
+    </div>
+
     <div id='startPage'>
 
     </div>
@@ -199,7 +320,7 @@
         <div class="selectDiv">
           <label for="functions">Fractal type:</label>
           <select name="functions" id="selectFunc">
-            <option value='Linear'>Linear</option>
+            <option value='Linear' selected='selected'>Linear</option>
             <option value='Sinusoidal'>Sinusoidal</option>
             <option value='Spherical'>Spherical</option>
             <option value='Swirl'>Swirl</option>
@@ -222,14 +343,15 @@
             <option value='Cosine'>Cosine</option>
             <option value='Rings'>Rings</option>
             <option value='Fan'>Fan</option>
-            <option value='Blob'>Blob</option>
+            <!-- <option value='Blob'>Blob</option> -->
             <option value='PDJ'>PDJ</option>
-            <option value='Fan2'>Fan2</option>
-            <option value='Rings2'>Rings2</option>
+            <option value='PDJ2'>PDJ2</option>
+            <!-- <option value='Fan2'>Fan2</option> -->
+            <!-- <option value='Rings2'>Rings2</option> -->
             <option value='Eyefish'>Eyefish</option>
             <option value='Bubble'>Bubble</option>
             <option value='Cylinder'>Cylinder</option>
-            <option value='Perspective'>Perspective</option>
+            <!-- <option value='Perspective'>Perspective</option>
             <option value='Noise'>Noise</option>
             <option value='JuliaN'>JuliaN</option>
             <option value='JuliaScope'>JuliaScope</option>
@@ -240,13 +362,13 @@
             <option value='Ngon'>Ngon</option>
             <option value='Curl'>Curl</option>
             <option value='Rectangles'>Rectangles</option>
-            <option value='Arch'>Arch</option>
+            <option value='Arch'>Arch</option> -->
             <option value='Tangent'>Tangent</option>
-            <option value='Square'>Square</option>
-            <option value='Rays'>Rays</option>
-            <option value='Blade'>Blade</option>
-            <option value='Secant'>Secant</option>
-            <option value='Twintrian'>Twintrian</option>
+            <!-- <option value='Square'>Square</option> -->
+            <!-- <option value='Rays'>Rays</option> -->
+            <!-- <option value='Blade'>Blade</option> -->
+            <!-- <option value='Secant'>Secant</option> -->
+            <!-- <option value='Twintrian'>Twintrian</option> -->
             <option value='Cross'>Cross</option>
           </select>
         <div>
