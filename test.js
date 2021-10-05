@@ -5,64 +5,6 @@
 
 "use strict";
 
-let common = {'Canvas' : document.getElementById('Canvas'),
-              'ctx' : document.getElementById('Canvas').getContext('2d')};
-
-common.Canvas.width  = Math.round(window.innerWidth*0.85);
-common.Canvas.height = window.innerHeight;
-document.getElementById('changeOrientation').style.display = 'none';
-if(common.Canvas.width < common.Canvas.height) document.getElementById('changeOrientation').style.display = 'block';
-else document.getElementById('mainPage').style.display = 'block';
-
-Object.assign(common, {'width' : common.Canvas.width, 'height' : common.Canvas.height});
-
-Object.assign(common,  
-              {'Image' : common.ctx.createImageData(common.width, common.height),
-              'Gamma' : 2.2,
-              'blob'  : new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
-              'worker': null,
-              'numberOfCoeffs' : Number(document.getElementById('selectAffine').value)});
-              
-/* Each function can use a user predefined number of affine transformations('numberOfCoeffs' in "common").
-   This number will affect the resulting image */
-let lookupCoeffs = {'Linear': [4,20],
-                    'Sinusoidal': [5,30],
-                    'Spherical': [5,20],
-                    'Swirl': [5,20],
-                    'Horseshoe': [5,20],
-                    'Polar': [10,30],
-                    'Handkerchief': [10,30],
-                    'Heart': [5,25],
-                    'Disc': [5,20],
-                    'Spiral': [10,30],
-                    'Hyperbolic': [10,30],
-                    'Diamond': [10,30],
-                    'Ex': [10,40],
-                    'Julia': [10,40],
-                    'Bent': [5,30],
-                    'Waves': [10,40],
-                    'Fisheye': [15,40],
-                    'Popcorn': [10,40],
-                    'Exponential': [10,40],
-                    'Power': [10,40],
-                    'Cosine': [10,40],
-                    'Rings': [10,40],
-                    'Fan': [20,40],
-                    //'Blob': [10,40] works weird
-                    'PDJ': [50,200],
-                    'PDJ2': [50,200],
-                    'Eyefish': [15,100],
-                    'Bubble': [15,50],
-                    'Cylinder': [15,50],
-                    // 'Arch': [15,50],
-                    'Tangent': [15,50],
-                    // 'Square': [15,50],
-                    // 'Twintrian': [10,50],
-                    'Cross': [10,50]
-
-}
-
-
 /* Each function has a set of parameters - coefficients of an affine combination.
 
 	(Xn+1) = (a b) * (Xn) + (c)
@@ -140,6 +82,11 @@ function workIt(event){
     bitMap.data[i-1] = fractalFlame.entries[i-1]*GammaMod;
   }
   common.ctx.putImageData(bitMap, 0, 0); // print the image on the canvas.
+  if(common.disabled && document.getElementById('ButtonInfo').innerHTML == 'Info'){
+    document.getElementById('ButtonCreate').disabled='';
+    common.disabled = false;
+    document.getElementById('ButtonCreate').style.cursor = 'pointer';
+  }
 }
 
 function modifyWorker(){
@@ -148,10 +95,6 @@ function modifyWorker(){
   common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
   common.worker.onmessage = workIt;
 }
-
-common.worker = new Worker(URL.createObjectURL(common.blob));
-common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
-common.worker.onmessage = workIt;
 
 // Add the gamma parameters to the "Gamma" menu. The step is 0.1.
 (function(){
@@ -165,18 +108,78 @@ common.worker.onmessage = workIt;
   gammaMenu.value = 2.2;
 })();
 
+
+/*************************************************************************/
+/* Here comes the definition of different parameters and event listeners */
+
+let common = {'Canvas' : document.getElementById('Canvas'),
+              'ctx' : document.getElementById('Canvas').getContext('2d')};
+
+common.Canvas.width  = Math.round(window.innerWidth*0.85);
+common.Canvas.height = window.innerHeight;
+
+Object.assign(common, {'width' : common.Canvas.width, 'height' : common.Canvas.height});
+
+Object.assign(common,  
+              {'Image' : common.ctx.createImageData(common.width, common.height),
+              'Gamma' : 2.2,
+              'blob'  : new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
+              'worker': null,
+              'numberOfCoeffs' : Number(document.getElementById('selectAffine').value),
+              'disabled': false});
+              
+common.worker = new Worker(URL.createObjectURL(common.blob));
+common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
+common.worker.onmessage = workIt;
+              
+/* Each function can use a user predefined number of affine transformations('numberOfCoeffs' in "common").
+   This number will affect the resulting image */
+let lookupCoeffs = {'Linear': [4,20],
+                    'Sinusoidal': [5,30],
+                    'Spherical': [5,20],
+                    'Swirl': [5,20],
+                    'Horseshoe': [5,20],
+                    'Polar': [10,30],
+                    'Handkerchief': [10,30],
+                    'Heart': [5,25],
+                    'Disc': [5,20],
+                    'Spiral': [10,30],
+                    'Hyperbolic': [10,30],
+                    'Diamond': [10,30],
+                    'Ex': [10,40],
+                    'Julia': [10,40],
+                    'Bent': [5,30],
+                    'Waves': [10,40],
+                    'Fisheye': [15,40],
+                    'Popcorn': [10,40],
+                    'Exponential': [10,40],
+                    'Power': [10,40],
+                    'Cosine': [10,40],
+                    'Rings': [10,40],
+                    'Fan': [20,40],
+                    //'Blob': [10,40] works weird
+                    'PDJ': [50,200],
+                    'PDJ2': [50,200],
+                    'Eyefish': [15,100],
+                    'Bubble': [15,50],
+                    'Cylinder': [15,50],
+                    // 'Arch': [15,50],
+                    'Tangent': [15,50],
+                    // 'Square': [15,50],
+                    // 'Twintrian': [10,50],
+                    'Cross': [10,50]
+
+}
+
+if(common.Canvas.width < common.Canvas.height) document.getElementById('rotationNote').style.display = 'block';
+
 window.addEventListener('resize', 
 () => {
   common.Canvas.width  = Math.round(window.innerWidth*0.85);
   common.Canvas.height = window.innerHeight;
-  if(common.Canvas.width < common.Canvas.height){
-    document.getElementById('mainPage').style.display = 'none';
-    document.getElementById('changeOrientation').style.display = 'block';
-  }
-  else{
-    document.getElementById('changeOrientation').style.display = 'none';
-    document.getElementById('mainPage').style.display = 'block';
-  }
+  if(common.Canvas.width < common.Canvas.height) document.getElementById('rotationNote').style.display = 'block';
+  else document.getElementById('rotationNote').style.display = 'none';
+
   common.width  = common.Canvas.width;
   common.height = common.Canvas.height;
   common.Image = common.ctx.createImageData(common.width, common.height);
@@ -216,3 +219,32 @@ document.getElementById('selectGamma').addEventListener('change',
 
 // Modify the web worker on click.
 document.getElementById('ButtonCreate').addEventListener('click', modifyWorker);
+
+/* There is a chance that the first frame will need several seconds to be printed. 
+   In that time a user can click on the button and hence add extra job for the script. 
+   So the button is shortly disabled.
+*/
+document.getElementById('ButtonCreate').addEventListener('click', 
+  () => {
+    document.getElementById('ButtonCreate').disabled = 'true';
+    common.disabled = true;
+    document.getElementById('ButtonCreate').style.cursor = 'default';
+  });
+  
+document.getElementById('ButtonInfo').addEventListener('click', 
+  () => {
+    if(document.getElementById('ButtonInfo').innerHTML == 'Info'){
+      document.getElementById('infoPage').style.display = 'inline-block';
+      document.getElementById('Canvas').style.display = 'none';
+      document.getElementById('ButtonCreate').disabled = 'true';
+      document.getElementById('ButtonCreate').style.cursor = 'default';
+      document.getElementById('ButtonInfo').innerHTML = 'Back';
+    }
+    else{
+      document.getElementById('infoPage').style.display = 'none';
+      document.getElementById('Canvas').style.display = 'inline-block';
+      document.getElementById('ButtonCreate').disabled = '';
+      document.getElementById('ButtonCreate').style.cursor = 'pointer';
+      document.getElementById('ButtonInfo').innerHTML = 'Info';
+    }
+  });
