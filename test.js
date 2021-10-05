@@ -1,41 +1,45 @@
+/* This is the main script, which starts the creation of fractal flames.
+   It uses the web worker, defined in FractalFlame.html for the calculations.
+   The web worker gets parameters from this script.
+*/
+
 "use strict";
 
-const coresSelect = document.getElementById("cores");
-for(let i = 1; i <= navigator.hardwareConcurrency; i++){
-  let opt = document.createElement("option");
-  opt.value = i.toString();
-  opt.innerHTML = i.toString();
-  coresSelect.add(opt);
+let common = {'Canvas' : document.getElementById('Canvas'),
+              'ctx' : document.getElementById('Canvas').getContext('2d')};
+
+common.Canvas.width  = Math.round(window.innerWidth*0.85);
+common.Canvas.height = window.innerHeight;
+
+Object.assign(common, {'width' : common.Canvas.width, 'height' : common.Canvas.height});
+
+Object.assign(common,  
+              {'Image' : common.ctx.createImageData(common.width, common.height),
+              'Gamma' : 2.2,
+              'blob'  : new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
+              'worker': null,
+              'numberOfCoeffs' : Number(document.getElementById('selectAffine').value)});
+              
+/* Each function can use a user predefined number of affine transformations('numberOfCoeffs' in "common").
+   This number will affect the resulting image */
+let lookupCoeffs = {'Linear': [4,20],
+                    'Sinusoidal': [5,30],
+                    'Spherical': [5,20],
+                    'Swirl': [5,20],
+                    'Horseshoe': [5,20],
+                    'Polar': [10,30],
+                    'Handkerchief': [10,30],
+                    'Heart': [5,25],
+                    'Disc': [5,20],
+                    'Spiral': [10,30],
+                    'Hyperbolic': [10,30],
+                    'Diamond': [10,30],
+                    'Ex': [10,40],
+                    'Julia': [10,40],
+                    'Waves': [10,40],
+                    'Bent': [5,30],
 }
 
-let ctx = document.getElementById('Canvas').getContext('2d');
-Canvas.width  = Math.round(window.innerWidth*0.85);
-Canvas.height = window.innerHeight;
-let width = Canvas.width;
-let height = Canvas.height;
-
-class Matrix2{
-
-		constructor(width, height) {
-			this.width = width;
-			this.height = height;
-			this.entries = Array.from({length: width*height*4}, () => 0); // Each entry stores RGB and a counter.
-		}
-		
-		get(x, y) {return this.entries[y*this.width*4 + x*4+3];}	
-
-		set1(x, y, value){
-			this.entries[y*this.width*4 + x*4] = value[0];
-			this.entries[y*this.width*4 + x*4+1] = value[1];
-			this.entries[y*this.width*4 + x*4+2] = value[2];
-		}
-		set2(x, y, value){
-			this.entries[y*this.width*4 + x*4]   = Math.round((this.entries[y*this.width*4 + x*4] + value[0])/2);
-			this.entries[y*this.width*4 + x*4+1] = Math.round((this.entries[y*this.width*4 + x*4+1] + value[1])/2);
-			this.entries[y*this.width*4 + x*4+2] = Math.round((this.entries[y*this.width*4 + x*4+2] + value[2])/2);
-		}
-		inc(x, y) {this.entries[y*this.width*4 + x*4+3]++;}
-	}
 
 /* Each function has a set of parameters - coefficients of an affine combination.
 
@@ -51,13 +55,14 @@ class Matrix2{
 	3) a^2 + b^2 + d^2 + e^2 < 1 + (ae - bd)^2
 	
 	They will be chosen from the set [-1;1), 1 is not included because of the way Math.random() works.
-	Most of these combinations will probably result in boring/ugly results.
+	Some of these combinations will probably result in boring/ugly results.
 */
 
 function assignCoeffs(size){
 	let out1 = [];
 	let out2 = [];
 	let a,b,c,d,e,f,rgb;
+
 	while(size > 0){
 		do{
 			do{
@@ -72,60 +77,112 @@ function assignCoeffs(size){
 		c = Math.random()*2 - 1;
 		f = Math.random()*2 - 1;
 		out1.push([a,b,c,d,e,f]);
-		//rgb = [[255,0,255],[255,255,0],[0,255,255],[255,0,0],[0,0,255],[0,255,0]][Math.round(Math.random()*5)];
-		rgb = [150 + Math.round(Math.random()*105), 150 + Math.round(Math.random()*105), 150 + Math.round(Math.random()*105)];
+
+    do{
+      rgb = [Math.round(Math.random()*255), Math.round(Math.random()*155), Math.round(Math.random()*155)];
+    }while(Math.max(...rgb) < 100);
+
 		out2.push(rgb);
 		size--;
 	}
-	
-	// assign some RGB
-	//.rgb = [55 + Math.round(Math.random()*145), 55 + Math.round(Math.random()*145), 55 + Math.round(Math.random()*145)];
-	
-	//.rgb = [[255,0,255],[255,255,0],[0,255,255]][Math.round(Math.random()*2)];
-	//.rgb = [255,0,255];
-	//console.log(out2)
 	return [out1,out2];
 }
 
+// This function sends a message to the Worker, the message includes the sizes of the matrix, affine coeefs and mode value.
+function workIt(event){
 
+  let max = 0;
+  let fractalFlame = event.data;
 
-//console.log(performance.now()-qq);
+  for (let i = common.width*common.height*4-1; i > 2; i -= 4){
 
-let coeffs=assignCoeffs(7);//4-10
-const blob = new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" })
+    // Scale the colors by counter and take logarithm of it.
+    if(fractalFlame.entries[i]){
+      fractalFlame.entries[i-3] /= fractalFlame.entries[i];
+      fractalFlame.entries[i-2] /= fractalFlame.entries[i];
+      fractalFlame.entries[i-1] /= fractalFlame.entries[i];
+      fractalFlame.entries[i] = Math.log10(fractalFlame.entries[i]);
+    }
+    max = Math.max(fractalFlame.entries[i], max);
+  }
 
-let qq=performance.now();
-Promise.all(Array.from({length: Math.max(navigator.hardwareConcurrency-1,1)}, () => new Promise((resolve, reject) => {
-    const worker = new Worker(URL.createObjectURL(blob));
-    worker.postMessage([width, height,coeffs]);
-    worker.addEventListener('message', event => resolve(event.data));
-    worker.addEventListener('error', reject);
-  })))
-  .then(results => {
-console.log(performance.now()-qq);
-		let O_o = ctx.createImageData(width, height);
-		let fractalFlame = new Matrix2(width, height);
-		let max = 0;
-		let gamma = 3;
-		for(let fractal=results.length-1;fractal>=0;fractal--){
-			for (let i=results[fractal].entries.length-1;i>2;i-=4){
-				if(results[fractal].entries[i])results[fractal].entries[i] = Math.log10(results[fractal].entries[i]);
-				max = Math.max(results[fractal].entries[i],max);
-			}
-		}
-		let leng=results.length-1;
-		for (let i=O_o.data.length-1;i>2;i-=4){
-			for(let fractal=leng;fractal>=0;fractal--){
-				fractalFlame.entries[i] += (255*results[fractal].entries[i]/max);
-				fractalFlame.entries[i-3] += (results[fractal].entries[i-3]*Math.pow(results[fractal].entries[i]/max,1/gamma));
-				fractalFlame.entries[i-2] += (results[fractal].entries[i-2]*Math.pow(results[fractal].entries[i]/max,1/gamma));
-				fractalFlame.entries[i-1] += (results[fractal].entries[i-1]*Math.pow(results[fractal].entries[i]/max,1/gamma));
-			}
-			O_o.data[i] = fractalFlame.entries[i]/(leng+1);
-			O_o.data[i-3]= fractalFlame.entries[i-3]/(leng+1);
-			O_o.data[i-2] = fractalFlame.entries[i-2]/(leng+1);
-			O_o.data[i-1] = fractalFlame.entries[i-1]/(leng+1);
-		}
-		ctx.putImageData(O_o, 0, 0);
+  let GammaMod; // Gamma correction.
+  let bitMap = common.Image;
+  let Gamma = common.Gamma;
+  for (let i = common.width*common.height*4-1; i > 2; i -= 4){
 
+    GammaMod = Math.pow(fractalFlame.entries[i]/max,1/Gamma);
+    bitMap.data[i]   = 255*fractalFlame.entries[i]/max;
+    bitMap.data[i-3] = fractalFlame.entries[i-3]*GammaMod;
+    bitMap.data[i-2] = fractalFlame.entries[i-2]*GammaMod;
+    bitMap.data[i-1] = fractalFlame.entries[i-1]*GammaMod;
+  }
+  common.ctx.putImageData(bitMap, 0, 0); // print the image on the canvas.
+}
+
+function modifyWorker(){
+  common.worker.terminate();
+  common.worker = new Worker(URL.createObjectURL(common.blob));
+  common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
+  common.worker.onmessage = workIt;
+}
+
+common.worker = new Worker(URL.createObjectURL(common.blob));
+common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
+common.worker.onmessage = workIt;
+
+// Add the gamma parameters to the "Gamma" menu. The step is 0.1.
+(function(){
+  let gammaMenu = document.getElementById('selectGamma');
+  for(let i = 2; i <= 4.1; i += 0.1){
+    let curOption = document.createElement('option');
+    curOption.value = String(i.toFixed(1));
+    curOption.text = String(i.toFixed(1));
+    gammaMenu.appendChild(curOption);
+  }
+  gammaMenu.value = 2.2;
+})();
+
+window.addEventListener('resize', 
+() => {
+  common.Canvas.width  = Math.round(window.innerWidth*0.85);
+  common.Canvas.height = window.innerHeight;
+  common.width  = common.Canvas.width;
+  common.height = common.Canvas.height;
+  common.Image = common.ctx.createImageData(common.width, common.height);
+  modifyWorker();
 });
+
+// This changes the menu, which holds the number of affine transformtions('Magic number')
+document.getElementById('selectFunc').addEventListener('change',
+  () => {
+    
+    let options = document.getElementById('selectAffine').options;
+    for(let i = options.length - 1; i >= 0; i--){
+      options.remove(i);
+    }
+
+    options = document.getElementById('selectAffine');
+    let Func = document.getElementById('selectFunc').value;
+    for(let i = lookupCoeffs[Func][0]; i <= lookupCoeffs[Func][1]; i++){
+      let curOption = document.createElement('option');
+      curOption.value = String(i);
+      curOption.text = String(i);
+      options.appendChild(curOption);
+    }
+    document.getElementById('selectAffine').value = lookupCoeffs[Func][1];
+    common.numberOfCoeffs = lookupCoeffs[Func][1];
+});
+
+// Set the parameter 'numberOfCoeffs' from "common" to the chosen value.
+document.getElementById('selectAffine').addEventListener('change',
+  () => {common.numberOfCoeffs = Number(document.getElementById('selectAffine').value);
+});
+
+// Set the parameter 'Gamma' from "common" to the chosen value.
+document.getElementById('selectGamma').addEventListener('change',
+  () => {common.Gamma = Number(document.getElementById('selectGamma').value);
+});
+
+// Modify the web worker on click.
+document.getElementById('ButtonCreate').addEventListener('click', modifyWorker);
