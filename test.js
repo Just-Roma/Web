@@ -10,7 +10,7 @@ let common = {'Canvas' : document.getElementById('Canvas'),
 
 common.Canvas.width  = Math.round(window.innerWidth*0.85);
 common.Canvas.height = window.innerHeight;
-
+document.getElementById('changeOrientation').style.display = 'none';
 if(common.Canvas.width < common.Canvas.height) document.getElementById('changeOrientation').style.display = 'block';
 else document.getElementById('mainPage').style.display = 'block';
 
