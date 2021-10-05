@@ -1,0 +1,134 @@
+html{
+	width:100%;
+	height:100%;
+	background-color:rgb(0,0,0);
+}
+
+body{
+	width:100%;
+	height:100%;
+	margin:0px;
+}
+
+label{
+  display:block;
+}
+
+select{
+  background-color:rgb(0,0,0);
+  color:rgb(220,20,60);
+  font-size:calc(0.7vw + 0.7vh);
+  border:1px solid rgb(220,20,60);
+  border-radius:1px;
+  cursor:pointer;
+  outline: none;
+}
+/* Chage the scrollbar */
+::-webkit-scrollbar {
+	background-color:rgb(0,0,0);
+	display:inline-block;
+	width:2px;
+	height:0px;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color:rgb(220,20,60);
+	border-radius: 2px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+#startPage{
+  width:100%;
+  height:100%;
+  display:none;
+}
+
+#mainPage{
+  width:100%;
+  height:100%;
+  
+}
+
+#Canvas{
+	width:85%;
+  display:inline-block;
+}
+
+#Menu{
+  position:fixed;
+	width:14%;
+  height:100%;
+  text-align:center;
+  display:inline-block;
+  color:rgb(220,20,60);
+}
+
+h1{
+	width:100%;
+	text-align: center;
+	margin:0px;
+	margin-left:0.1vw;
+	margin-top:1vw;
+	padding:0px;
+	font-size:calc(1.5vw + 1vh);
+	color:rgb(220,20,60);
+	text-shadow:
+		0 0 1px  rgb(220,20,60),
+		0 0 2px  rgb(220,20,60);
+}
+
+.selectDiv{
+  width:100%;
+  height:30%;
+  margin-top:4vh;
+  font-size:calc(1vw + 1vh);
+}
+
+#selectGammaDiv{
+  margin-bottom:4vh;
+}
+
+#ButtonCreate{
+	width:100%;
+	height:4vh;
+	margin:0.2vw;
+  margin-top:4vh;
+  color:rgb(220,20,60);
+	border:none;
+	padding:0px;
+	cursor:pointer;
+	font-size:calc(0.9vw + 0.9vh);
+	background: #000;
+	text-shadow:
+		0 0 0px  rgb(220,20,60),
+		0 0 1px  rgb(220,20,60),
+		0 0 2px  rgb(220,20,60);
+
+	box-shadow:
+		inset 0 0 4px rgb(220,20,60),
+		0 0 0px  rgb(220,20,60),
+		0 0 1px  rgb(220,20,60),
+		0 0 2px  rgb(220,20,60),
+		0 0 3px  rgb(220,20,60),
+		0 0 5px  rgb(220,20,60);
+}
+
+
+
+/* Change the button's appearance on click. */
+#ButtonCreate:active{
+	box-shadow:
+		inset 0 0 4px rgb(220,20,60),
+		0 0 0px  rgb(220,20,60),
+		0 0 1px  rgb(220,20,60),
+		0 0 2px  rgb(220,20,60),
+		0 0 3px  rgb(220,20,60),
+		0 0 4px  rgb(220,20,60),
+		0 0 5px  rgb(220,20,60),
+		0 0 6px  rgb(220,20,60),
+		0 0 7px  rgb(220,20,60),
+		0 0 8px  rgb(220,20,60);
+}
