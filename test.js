@@ -11,6 +11,9 @@ let common = {'Canvas' : document.getElementById('Canvas'),
 common.Canvas.width  = Math.round(window.innerWidth*0.85);
 common.Canvas.height = window.innerHeight;
 
+if(common.Canvas.width < common.Canvas.height) document.getElementById('changeOrientation').style.display = 'block';
+else document.getElementById('mainPage').style.display = 'block';
+
 Object.assign(common, {'width' : common.Canvas.width, 'height' : common.Canvas.height});
 
 Object.assign(common,  
@@ -36,8 +39,27 @@ let lookupCoeffs = {'Linear': [4,20],
                     'Diamond': [10,30],
                     'Ex': [10,40],
                     'Julia': [10,40],
-                    'Waves': [10,40],
                     'Bent': [5,30],
+                    'Waves': [10,40],
+                    'Fisheye': [15,40],
+                    'Popcorn': [10,40],
+                    'Exponential': [10,40],
+                    'Power': [10,40],
+                    'Cosine': [10,40],
+                    'Rings': [10,40],
+                    'Fan': [20,40],
+                    //'Blob': [10,40] works weird
+                    'PDJ': [50,200],
+                    'PDJ2': [50,200],
+                    'Eyefish': [15,100],
+                    'Bubble': [15,50],
+                    'Cylinder': [15,50],
+                    // 'Arch': [15,50],
+                    'Tangent': [15,50],
+                    // 'Square': [15,50],
+                    // 'Twintrian': [10,50],
+                    'Cross': [10,50]
+
 }
 
 
@@ -147,6 +169,14 @@ window.addEventListener('resize',
 () => {
   common.Canvas.width  = Math.round(window.innerWidth*0.85);
   common.Canvas.height = window.innerHeight;
+  if(common.Canvas.width < common.Canvas.height){
+    document.getElementById('mainPage').style.display = 'none';
+    document.getElementById('changeOrientation').style.display = 'block';
+  }
+  else{
+    document.getElementById('changeOrientation').style.display = 'none';
+    document.getElementById('mainPage').style.display = 'block';
+  }
   common.width  = common.Canvas.width;
   common.height = common.Canvas.height;
   common.Image = common.ctx.createImageData(common.width, common.height);
