@@ -165,12 +165,12 @@
         else return[r*Math.cos(Teta+t/2), r*Math.sin(Teta+t/2)];
 			}, 'scaleX': 6, 'scaleY': 6},
 
-      /*'Blob': {'func': function(x, y, a, b, c, d, e, f, p1, p2, p3){ works weird
+      'Blob': {'func': function(x, y, a, b, c, d, e, f, p1, p2, p3){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
         let par = r*(p2+((p1-p2)/2)*(Math.sin(p3*Teta)+1));
         return[par*Math.cos(Teta), par*Math.sin(Teta)];
-			}, 'scaleX': 2, 'scaleY': 2}*/
+			}, 'scaleX': 5, 'scaleY': 5},
 
       'PDJ': {'func': function(x, y, a, b, c, d, e, f, p1, p2, p3, p4){
         return[Math.sin(p1*y) - Math.cos(p2*x), Math.sin(p3*x) - Math.cos(p4*y)];
@@ -179,6 +179,15 @@
       'PDJ2': {'func': function(x, y, a, b, c, d){
         return[Math.sin(a*y) - Math.cos(b*x), Math.sin(c*x) - Math.cos(d*y)];
 			}, 'scaleX': 3, 'scaleY': 4},
+
+      'Pipe': {'func': function(x, y){
+        let r = rFunc(x, y);
+        let Teta = tetaFunc(x, y);
+        let p1 = Math.PI*x*x;
+        let t = Teta + y - p1*Math.trunc((2*Teta*y)/p1);
+        if(t > p1/2) return[r*Math.sin(Teta-p1/2), r*Math.cos(Teta-p1/2)];
+        else return[r*Math.sin(Teta+p1/2), r*Math.cos(Teta+p1/2)];
+			}, 'scaleX': 6, 'scaleY': 6},
 
       'Eyefish': {'func': function(x, y){
         let r = 2/(rFunc(x, y) + 1);
@@ -212,6 +221,12 @@
         let runif = 0.1//Math.random();
         return[Math.sin(runif*Math.PI),Math.sin(runif*Math.PI)**2/Math.cos(runif*Math.PI)];
 			}, 'scaleX': 12, 'scaleY': 12},*/
+
+      /*'JuliaScope': {'func': function(x, y, a, b, c, d, e, f, p1, p2){
+        let t = ([-1,1][Math.round(Math.random())]*Math.atan(y/x) + 2*Math.PI*Math.trunc(Math.abs(p1)*Math.random()))/p1;
+        let r = Math.pow(rFunc(x, y),p2/p1);
+        return[r*Math.cos(t), r*Math.sin(t)];
+			}, 'scaleX': 1, 'scaleY': 1}, */
 
       'Tangent': {'func': function(x, y){
         return[Math.sin(x)/Math.cos(y), Math.tan(y)];
@@ -249,12 +264,12 @@
                              offsetY = -Math.floor(height/3);
                              break;
 
-          /*case 'Blob': offsetX = -Math.round(width/2);;
+          case 'Blob': offsetX = -Math.round(width/2);;
                        offsetY = 0;
-                       p1 = 0.5;//Math.random();
-                       p2 = 0.5//;Math.random();
-                       p3 = Math.random();
-                       break;*/
+                       p1 = Math.random();
+                       p2 = 1+Math.random();
+                       p3 = 1+30*Math.random();
+                       break;
           case 'PDJ': offsetX = Math.round(width*0.2);
                       offsetY = Math.round(height*0.15);
                       let ran= Math.round(Math.random()*len);
@@ -268,7 +283,10 @@
                       offsetY = Math.round(height*0.15);
                       break;
 
-
+          /*case 'JuliaScope':offsetX = 0;
+                            offsetY = 0;
+                            p1 = 10//+50*Math.random()//Math.random();
+                            p2 = 10+40*Math.random()//Math.random();*/
           default: offsetX = 0;
                    offsetY = 0;
         }
@@ -370,10 +388,10 @@
             <option value='Cosine'>Cosine</option>
             <option value='Rings'>Rings</option>
             <option value='Fan'>Fan</option>
-            <!-- <option value='Blob'>Blob</option> -->
+            <option value='Blob'>Blob</option>
             <option value='PDJ'>PDJ</option>
             <option value='PDJ2'>PDJ2</option>
-            <!-- <option value='Fan2'>Fan2</option> -->
+            <option value='Pipe'>Pipe</option>
             <!-- <option value='Rings2'>Rings2</option> -->
             <option value='Eyefish'>Eyefish</option>
             <option value='Bubble'>Bubble</option>
