@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html style="background-color:black;" lang="en">
-	<head>
+  <head>
     <meta charset='utf-8'/>
-		<meta name='viewport' content='width=device-width, initial-scale=1.0'/>
-		<title>Fractal flame</title>
-		<link rel="stylesheet" href="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.css"/>
-		<script id="worker" type="javascript/worker">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
+    <title>Fractal flame</title>
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.css"/>
+    <script id="worker" type="javascript/worker">
 
-			class Matrix{
+      class Matrix{
 
-				constructor(width, height) {
-					this.width = width;
-					this.height = height;
-          // Each entry stores RGB(first 3 positions) and a counter(how many times a pixel was hit).
-					this.entries = Array.from({length: width*height*4}, () => 0);
-				}
+      constructor(width, height) {
+        this.width = width;
+        this.height = height;
+        // Each entry stores RGB(first 3 positions) and a counter(how many times a pixel was hit).
+	this.entries = Array.from({length: width*height*4}, () => 0);
+      }
 				
-				get(x, y) {return this.entries[y*this.width*4 + x*4+3];}	
+      get(x, y) {return this.entries[y*this.width*4 + x*4+3];}	
 
-        // Set RGB. There can be different ways. This one just sums up the color values.
-        set(x, y, value){
-          this.entries[y*this.width*4 + x*4]   += value[0];
-          this.entries[y*this.width*4 + x*4+1] += value[1];
-          this.entries[y*this.width*4 + x*4+2] += value[2];
-        }
+      // Set RGB. There can be different ways. This one just sums up the color values.
+      set(x, y, value){
+        this.entries[y*this.width*4 + x*4]   += value[0];
+        this.entries[y*this.width*4 + x*4+1] += value[1];
+        this.entries[y*this.width*4 + x*4+2] += value[2];
+      }
 
-				// Increases the counter.
-				inc(x, y) {this.entries[y*this.width*4 + x*4+3]++;}
-			}
+      // Increases the counter.
+        inc(x, y) {this.entries[y*this.width*4 + x*4+3]++;}
+      }
 
       // These are support functions used below.
       function rFunc(x, y) {return Math.sqrt(x*x + y*y);}
@@ -36,42 +36,42 @@
       function omegaFunc() {return [0, Math.PI][Math.round(Math.random())];}
       
       // The set of functions with scaling parameters.
-			let Functions = {
+	let Functions = {
 
-			'Linear': {'func': function(x, y){
-				return [x, y];
-			}, 'scaleX': 6, 'scaleY': 6},
+	'Linear': {'func': function(x, y){
+		return [x, y];
+	}, 'scaleX': 6, 'scaleY': 6},
 
-			'Sinusoidal': {'func': function(x, y){
-				return [Math.sin(x), Math.sin(y)];
-			}, 'scaleX': 2.5, 'scaleY': 2.5},
+	'Sinusoidal': {'func': function(x, y){
+		return [Math.sin(x), Math.sin(y)];
+	}, 'scaleX': 2.5, 'scaleY': 2.5},
 
-			'Spherical': {'func': function(x, y){
-				let rSquare = rSquareFunc(x, y);
-				return [x/rSquare, y/rSquare];
-			}, 'scaleX': 7, 'scaleY': 7},
+	'Spherical': {'func': function(x, y){
+		let rSquare = rSquareFunc(x, y);
+		return [x/rSquare, y/rSquare];
+	}, 'scaleX': 7, 'scaleY': 7},
 
-			'Swirl': {'func': function(x, y){
-					let rSquare = rSquareFunc(x, y);
-					return [x*Math.sin(rSquare) - y*Math.cos(rSquare), x*Math.cos(rSquare) + y*Math.sin(rSquare)];
-			}, 'scaleX': 9, 'scaleY': 6},
+	'Swirl': {'func': function(x, y){
+			let rSquare = rSquareFunc(x, y);
+			return [x*Math.sin(rSquare) - y*Math.cos(rSquare), x*Math.cos(rSquare) + y*Math.sin(rSquare)];
+	}, 'scaleX': 9, 'scaleY': 6},
 
-			'Horseshoe': {'func': function(x, y){
-				let r = rFunc(x, y);
-				return [(x-y)*(x+y)/r, 2*x*y/r];
-			}, 'scaleX': 9, 'scaleY': 6},
+	'Horseshoe': {'func': function(x, y){
+		let r = rFunc(x, y);
+		return [(x-y)*(x+y)/r, 2*x*y/r];
+	}, 'scaleX': 9, 'scaleY': 6},
 
-			'Polar': {'func': function(x, y){
-				return [Math.atan2(x,y)/Math.PI, Math.sqrt(x**2 + y**2)-1];
-			}, 'scaleX': 2.3, 'scaleY': 2.5},
+	'Polar': {'func': function(x, y){
+		return [Math.atan2(x,y)/Math.PI, Math.sqrt(x**2 + y**2)-1];
+	}, 'scaleX': 2.3, 'scaleY': 2.5},
 
-			'Handkerchief': {'func': function(x, y){
-				let r = rFunc(x, y);
-				let Teta = tetaFunc(x, y);
-				return [r*Math.sin(Teta+r), r*Math.cos(Teta-r)];
-			}, 'scaleX': 6, 'scaleY': 7},
+	'Handkerchief': {'func': function(x, y){
+		let r = rFunc(x, y);
+		let Teta = tetaFunc(x, y);
+		return [r*Math.sin(Teta+r), r*Math.cos(Teta-r)];
+	}, 'scaleX': 6, 'scaleY': 7},
 
-			'Heart': {'func': function(x, y){
+	'Heart': {'func': function(x, y){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
         return [r*Math.sin(Teta*r), -r*Math.cos(Teta*r)];
@@ -107,34 +107,34 @@
         let p0 = Math.sin(Teta+r);
         let p1 = Math.cos(Teta-r);
         return [r*(Math.pow(p0,3) + Math.pow(p1,3)), r*(Math.pow(p0,3) - Math.pow(p1,3))];
-			}, 'scaleX': 6, 'scaleY': 10},
+	}, 'scaleX': 6, 'scaleY': 10},
 
       'Julia': {'func': function(x, y){
         let r = Math.sqrt(rFunc(x, y));
         let Teta = tetaFunc(x, y);
         let Omega = omegaFunc();
         return [Math.cos(Teta/2 + Omega) * r, Math.sin(Teta/2 + Omega) * r];
-			}, 'scaleX': 4, 'scaleY': 4},
+	}, 'scaleX': 4, 'scaleY': 4},
 
-			'Bent': {'func': function(x, y){
-					if (x >= 0 && y >= 0) return [x,y];
-					else if (x < 0 && y >= 0) return [2*x,y];
-					else if (x >= 0 && y < 0) return [x,y/2];
-					else return [2*x,y/2];
-				}, 'scaleX': 12, 'scaleY': 6},
+      'Bent': {'func': function(x, y){
+	if (x >= 0 && y >= 0) return [x,y];
+	else if (x < 0 && y >= 0) return [2*x,y];
+	else if (x >= 0 && y < 0) return [x,y/2];
+	else return [2*x,y/2];
+       }, 'scaleX': 12, 'scaleY': 6},
 
       'Waves': {'func': function(x, y, a, b, c, d, e, f){
         return [x + b*Math.sin(y/c**2), y + e*Math.sin(x/f**2)];
-			}, 'scaleX': 6, 'scaleY': 6},
+	}, 'scaleX': 6, 'scaleY': 6},
 
       'Fisheye': {'func': function(x, y){
         let r = rFunc(x, y);
         return [2*y/(r+1), 2*x/(r+1)];
-			}, 'scaleX': 4, 'scaleY': 4},
+	}, 'scaleX': 4, 'scaleY': 4},
 
       'Popcorn': {'func': function(x, y, a, b, c, d, e, f){
         return [x + c*Math.sin(Math.tan(3*y)), y + f*Math.sin(Math.tan(3*x))];
-			}, 'scaleX': 7, 'scaleY': 7},
+	}, 'scaleX': 7, 'scaleY': 7},
 
       'Exponential': {'func': function(x, y){
         return [Math.exp(x-1) * Math.cos(Math.PI*y), Math.exp(x-1) * Math.sin(Math.PI*y)];
@@ -238,15 +238,15 @@
 			}, 'scaleX': 12, 'scaleY': 12}
 
       }
-			self.onmessage = function(message){
+	self.onmessage = function(message){
 
-				let width  = message.data[0];
-				let height = message.data[1];
-				let coefs  = message.data[2][0]; // The set of affine coefficients
-				let len = coefs.length-1;
-				let rgb = message.data[2][1];
-				let fractalFlame = new Matrix(width, height);
-				let X, Y, cur_dot, chosenF, ranCoef;
+	let width  = message.data[0];
+	let height = message.data[1];
+	let coefs  = message.data[2][0]; // The set of affine coefficients
+	let len = coefs.length-1;
+	let rgb = message.data[2][1];
+	let fractalFlame = new Matrix(width, height);
+	let X, Y, cur_dot, chosenF, ranCoef;
         let chosenFunc = Functions[message.data[3]].func;
         let scaleX = Functions[message.data[3]].scaleX;
         let scaleY = Functions[message.data[3]].scaleY;
@@ -321,11 +321,11 @@
       }
 
 
-		</script>
-		<script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.js" defer></script>
-	</head>
+	</script>
+	<script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.js" defer></script>
+    </head>
 
-	<body>
+    <body>
   
     <!-- The image production is done in a way, that only horizontally placed phones can produce pretty results. -->
     <h1 id="rotationNote">Please rotate your device for a better experience.</h1>
