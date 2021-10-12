@@ -7,7 +7,7 @@
 
 
 // The matrix is used to store the results of calculations.
-class Matrix{
+class matrix{
 
   constructor(width, height) {
     this.width = width;
@@ -218,7 +218,7 @@ function workIt(event){
 
 // If a user has chosen new parameters, then the Matrix must be emptied and new parameters chosen.
 function modifyWorker(){
-  common.Matrix = new Matrix(common.width, common.height);
+  common.Matrix = new matrix(common.width, common.height);
   common.Parameters = assignCoeffs(common.numberOfCoeffs);
   common.execNumber ++;
   common.iterationNumber = 50000000; // Actually it would be better to create some look up table for this, since some functions and combinations are much easier than the others.
