@@ -112,7 +112,7 @@
       'Julia': {'func': function(x, y){
         let r = Math.sqrt(rFunc(x, y));
         let Teta = tetaFunc(x, y);
-        let Omega = omegaFunc();
+        let Omega = Math.round(6.28*Math.random())-3.14;//omegaFunc();
         return [Math.cos(Teta/2 + Omega) * r, Math.sin(Teta/2 + Omega) * r];
 			}, 'scaleX': 4, 'scaleY': 4},
 
