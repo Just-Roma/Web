@@ -4,7 +4,7 @@
     <meta charset='utf-8'/>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
     <title>Fractal flame</title>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.css"/>
+    <link rel="stylesheet" href="C:/Users/df/Desktop/FractalFlame.css"/>
     <script id="worker" type="javascript/worker">
 
       class Matrix{
@@ -13,7 +13,7 @@
         this.width = width;
         this.height = height;
         // Each entry stores RGB(first 3 positions) and a counter(how many times a pixel was hit).
-	this.entries = Array.from({length: width*height*4}, () => 0);
+        this.entries = Array.from({length: width*height*4}, () => 0);
       }
 				
       get(x, y) {return this.entries[y*this.width*4 + x*4+3];}	
@@ -36,70 +36,70 @@
       function omegaFunc() {return [0, Math.PI][Math.round(Math.random())];}
       
       // The set of functions with scaling parameters.
-	let Functions = {
+      let Functions = {
 
-	'Linear': {'func': function(x, y){
-		return [x, y];
-	}, 'scaleX': 6, 'scaleY': 6},
+      'Linear': {'func': function(x, y){
+        return [x, y];
+      }, 'scaleX': 6, 'scaleY': 6},
 
-	'Sinusoidal': {'func': function(x, y){
-		return [Math.sin(x), Math.sin(y)];
-	}, 'scaleX': 2.5, 'scaleY': 2.5},
+      'Sinusoidal': {'func': function(x, y){
+        return [Math.sin(x), Math.sin(y)];
+      }, 'scaleX': 2.5, 'scaleY': 2.5},
 
-	'Spherical': {'func': function(x, y){
-		let rSquare = rSquareFunc(x, y);
-		return [x/rSquare, y/rSquare];
-	}, 'scaleX': 7, 'scaleY': 7},
+      'Spherical': {'func': function(x, y){
+        let rSquare = rSquareFunc(x, y);
+        return [x/rSquare, y/rSquare];
+      }, 'scaleX': 7, 'scaleY': 7},
 
-	'Swirl': {'func': function(x, y){
-			let rSquare = rSquareFunc(x, y);
-			return [x*Math.sin(rSquare) - y*Math.cos(rSquare), x*Math.cos(rSquare) + y*Math.sin(rSquare)];
-	}, 'scaleX': 9, 'scaleY': 6},
+      'Swirl': {'func': function(x, y){
+        let rSquare = rSquareFunc(x, y);
+        return [x*Math.sin(rSquare) - y*Math.cos(rSquare), x*Math.cos(rSquare) + y*Math.sin(rSquare)];
+      }, 'scaleX': 9, 'scaleY': 6},
 
-	'Horseshoe': {'func': function(x, y){
-		let r = rFunc(x, y);
-		return [(x-y)*(x+y)/r, 2*x*y/r];
-	}, 'scaleX': 9, 'scaleY': 6},
+      'Horseshoe': {'func': function(x, y){
+        let r = rFunc(x, y);
+        return [(x-y)*(x+y)/r, 2*x*y/r];
+      }, 'scaleX': 9, 'scaleY': 6},
 
-	'Polar': {'func': function(x, y){
-		return [Math.atan2(x,y)/Math.PI, Math.sqrt(x**2 + y**2)-1];
-	}, 'scaleX': 2.3, 'scaleY': 2.5},
+      'Polar': {'func': function(x, y){
+        return [Math.atan2(x,y)/Math.PI, Math.sqrt(x**2 + y**2)-1];
+      }, 'scaleX': 2.3, 'scaleY': 2.5},
 
-	'Handkerchief': {'func': function(x, y){
-		let r = rFunc(x, y);
-		let Teta = tetaFunc(x, y);
-		return [r*Math.sin(Teta+r), r*Math.cos(Teta-r)];
-	}, 'scaleX': 6, 'scaleY': 7},
-
-	'Heart': {'func': function(x, y){
+      'Handkerchief': {'func': function(x, y){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
-        return [r*Math.sin(Teta*r), -r*Math.cos(Teta*r)];
-			}, 'scaleX': 9, 'scaleY': 7},
+        return [r*Math.sin(Teta+r), r*Math.cos(Teta-r)];
+      }, 'scaleX': 6, 'scaleY': 7},
 
-			'Disc': {'func': function(x, y){
+      'Heart': {'func': function(x, y){
+        let r = rFunc(x, y);
+        let Teta = tetaFunc(x, y)*r;
+        return [r*Math.sin(Teta), -r*Math.cos(Teta)];
+      }, 'scaleX': 9, 'scaleY': 7},
+
+      'Disc': {'func': function(x, y){
         let r = Math.PI * rFunc(x, y);
         let Teta = tetaFunc(x, y);
         return [Teta * Math.sin(r), Teta * Math.cos(r)];
-			}, 'scaleX': 4, 'scaleY': 3.5},
+      }, 'scaleX': 4, 'scaleY': 3.5},
 
       'Spiral': {'func': function(x, y){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
         return [(Math.cos(Teta) + Math.sin(r))/r, (Math.sin(Teta) - Math.cos(r))/r];
-			}, 'scaleX': 6, 'scaleY': 8},
+      }, 'scaleX': 6, 'scaleY': 8},
 
       'Hyperbolic': {'func': function(x, y){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
         return [Math.sin(Teta)/r, r*Math.cos(Teta)];
-			}, 'scaleX': 10, 'scaleY': 10},
+      }, 'scaleX': 10, 'scaleY': 10},
 
       'Diamond': {'func': function(x, y){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
         return [Math.sin(Teta)*Math.cos(r), Math.cos(Teta)*Math.sin(r)];
-			}, 'scaleX': 2.1, 'scaleY': 2.1},
+      }, 'scaleX': 2.1, 'scaleY': 2.1},
 
       'Ex': {'func': function(x, y){
         let r = rFunc(x, y);
@@ -107,55 +107,56 @@
         let p0 = Math.sin(Teta+r);
         let p1 = Math.cos(Teta-r);
         return [r*(Math.pow(p0,3) + Math.pow(p1,3)), r*(Math.pow(p0,3) - Math.pow(p1,3))];
-	}, 'scaleX': 6, 'scaleY': 10},
+      }, 'scaleX': 6, 'scaleY': 10},
 
       'Julia': {'func': function(x, y){
         let r = Math.sqrt(rFunc(x, y));
         let Teta = tetaFunc(x, y);
         let Omega = [0,Math.PI/2,Math.PI*3/2,Math.PI][Math.round(3*Math.random())];//Math.round(6.28*Math.random())-3.14;//omegaFunc();
         return [Math.cos(Teta/2 + Omega) * r, Math.sin(Teta/2 + Omega) * r];
-	}, 'scaleX': 4, 'scaleY': 4},
+      }, 'scaleX': 4, 'scaleY': 4},
 
       'Bent': {'func': function(x, y){
-	if (x >= 0 && y >= 0) return [x,y];
-	else if (x < 0 && y >= 0) return [2*x,y];
-	else if (x >= 0 && y < 0) return [x,y/2];
-	else return [2*x,y/2];
+        if (x >= 0 && y >= 0) return [x,y];
+        else if (x < 0 && y >= 0) return [2*x,y];
+        else if (x >= 0 && y < 0) return [x,y/2];
+        else return [2*x,y/2];
        }, 'scaleX': 12, 'scaleY': 6},
 
       'Waves': {'func': function(x, y, a, b, c, d, e, f){
         return [x + b*Math.sin(y/c**2), y + e*Math.sin(x/f**2)];
-	}, 'scaleX': 6, 'scaleY': 6},
+      }, 'scaleX': 6, 'scaleY': 6},
 
       'Fisheye': {'func': function(x, y){
-        let r = rFunc(x, y);
-        return [2*y/(r+1), 2*x/(r+1)];
-	}, 'scaleX': 4, 'scaleY': 4},
+        let r = rFunc(x, y)+1;
+        return [2*y/r, 2*x/r];
+      }, 'scaleX': 4, 'scaleY': 4},
 
       'Popcorn': {'func': function(x, y, a, b, c, d, e, f){
         return [x + c*Math.sin(Math.tan(3*y)), y + f*Math.sin(Math.tan(3*x))];
-	}, 'scaleX': 7, 'scaleY': 7},
+      }, 'scaleX': 7, 'scaleY': 7},
 
       'Exponential': {'func': function(x, y){
-        return [Math.exp(x-1) * Math.cos(Math.PI*y), Math.exp(x-1) * Math.sin(Math.PI*y)];
-			}, 'scaleX': 3, 'scaleY': 3},
+        let Exp = Math.exp(x-1);
+        return [Exp * Math.cos(Math.PI*y), Exp * Math.sin(Math.PI*y)];
+      }, 'scaleX': 3, 'scaleY': 3},
 
       'Power': {'func': function(x, y){
-      let Teta = tetaFunc(x, y);
-      let r = Math.pow(rFunc(x, y), Math.sin(Teta));
+        let Teta = tetaFunc(x, y);
+        let r = Math.pow(rFunc(x, y), Math.sin(Teta));
         return [r * Math.cos(Teta), r * Math.sin(Teta)];
-			}, 'scaleX': 5, 'scaleY': 5},
+      }, 'scaleX': 5, 'scaleY': 5},
 
       'Cosine': {'func': function(x, y){
         return [Math.cos(Math.PI*x)*Math.cosh(y), -Math.sin(Math.PI*x)*Math.sinh(y)];
-			}, 'scaleX': 5, 'scaleY': 4},
+      }, 'scaleX': 5, 'scaleY': 4},
 
       'Rings': {'func': function(x, y, a, b, c, d, e, f){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
         let par = ((r+c*c) % (2*c*c)) - c*c + r*(1-c*c);
         return [par*Math.cos(Teta), par*Math.sin(Teta)];
-			}, 'scaleX': 5, 'scaleY': 3},
+      }, 'scaleX': 5, 'scaleY': 3},
 
       'Fan': {'func': function(x, y, a, b, c, d, e, f){
         let t = Math.PI*c*c;
@@ -163,22 +164,22 @@
         let Teta = tetaFunc(x, y);
         if((Teta+f)%t > t/2) return[r*Math.cos(Teta-t/2), r*Math.sin(Teta-t/2)];
         else return[r*Math.cos(Teta+t/2), r*Math.sin(Teta+t/2)];
-			}, 'scaleX': 6, 'scaleY': 6},
+      }, 'scaleX': 6, 'scaleY': 6},
 
       'Blob': {'func': function(x, y, a, b, c, d, e, f, p1, p2, p3){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
         let par = r*(p2+((p1-p2)/2)*(Math.sin(p3*Teta)+1));
         return[par*Math.cos(Teta), par*Math.sin(Teta)];
-			}, 'scaleX': 5, 'scaleY': 5},
+      }, 'scaleX': 5, 'scaleY': 5},
 
       'PDJ': {'func': function(x, y, a, b, c, d, e, f, p1, p2, p3, p4){
         return[Math.sin(p1*y) - Math.cos(p2*x), Math.sin(p3*x) - Math.cos(p4*y)];
-			}, 'scaleX': 3, 'scaleY': 4},
+      }, 'scaleX': 3, 'scaleY': 4},
 
       'PDJ2': {'func': function(x, y, a, b, c, d){
         return[Math.sin(a*y) - Math.cos(b*x), Math.sin(c*x) - Math.cos(d*y)];
-			}, 'scaleX': 3, 'scaleY': 4},
+      }, 'scaleX': 3, 'scaleY': 4},
 
       'Pipe': {'func': function(x, y){
         let r = rFunc(x, y);
@@ -187,70 +188,52 @@
         let t = Teta + y - p1*Math.trunc((2*Teta*y)/p1);
         if(t > p1/2) return[r*Math.sin(Teta-p1/2), r*Math.cos(Teta-p1/2)];
         else return[r*Math.sin(Teta+p1/2), r*Math.cos(Teta+p1/2)];
-			}, 'scaleX': 6, 'scaleY': 6},
+      }, 'scaleX': 6, 'scaleY': 6},
 
       'Eyefish': {'func': function(x, y){
         let r = 2/(rFunc(x, y) + 1);
         return[r*x, r*y];
-			}, 'scaleX': 8, 'scaleY': 4},
+      }, 'scaleX': 8, 'scaleY': 4},
 
       'Bubble': {'func': function(x, y){
         let r = 4/(rSquareFunc(x, y) + 4);
         return[r*x, r*y];
-			}, 'scaleX': 8, 'scaleY': 4},
+      }, 'scaleX': 8, 'scaleY': 4},
 
       'Cylinder': {'func': function(x, y){
         return[Math.sin(x), y];
-			}, 'scaleX': 8, 'scaleY': 4},
-
-      /* Twintrian has a vector filled with 1, since this function does not create something extremely beautiful
-      'Twintrian': {'func': function(x, y){
-        let r = rFunc(x, y);
-        let runif = Math.random();
-        let t = Math.log10(Math.sin(runif*r)**2) + Math.cos(runif*r);
-        return[t*x, x*(t-Math.PI*Math.sin(runif*r))];
-			}, 'scaleX': 12, 'scaleY': 12},*/
-
-      /*'Square': {'func': function(x, y){ there is probably a mistake in the paper
-        let runif1 = Math.random();
-        let runif2 = Math.random();
-        return[(runif1-0.5)*x, (runif2-0.5)*y];
-			}, 'scaleX': 2, 'scaleY': 2},*/
-
-      /*'Arch': {'func': function(x, y){
-        let runif = 0.1//Math.random();
-        return[Math.sin(runif*Math.PI),Math.sin(runif*Math.PI)**2/Math.cos(runif*Math.PI)];
-			}, 'scaleX': 12, 'scaleY': 12},*/
-
-      /*'JuliaScope': {'func': function(x, y, a, b, c, d, e, f, p1, p2){
-        let t = ([-1,1][Math.round(Math.random())]*Math.atan(y/x) + 2*Math.PI*Math.trunc(Math.abs(p1)*Math.random()))/p1;
-        let r = Math.pow(rFunc(x, y),p2/p1);
-        return[r*Math.cos(t), r*Math.sin(t)];
-			}, 'scaleX': 1, 'scaleY': 1}, */
+      }, 'scaleX': 8, 'scaleY': 4},
 
       'Tangent': {'func': function(x, y){
         return[Math.sin(x)/Math.cos(y), Math.tan(y)];
-			}, 'scaleX': 12, 'scaleY': 12},
+      }, 'scaleX': 12, 'scaleY': 12},
 
       'Cross': {'func': function(x, y){
         let par = Math.sqrt(1/(x*x-y*y)**2);
         return[par*x, par*y];
-			}, 'scaleX': 12, 'scaleY': 12}
+      }, 'scaleX': 12, 'scaleY': 12}
 
       }
-	self.onmessage = function(message){
+      
+      
+      self.onmessage = function(message){
 
-	let width  = message.data[0];
-	let height = message.data[1];
-	let coefs  = message.data[2][0]; // The set of affine coefficients
-	let len = coefs.length-1;
-	let rgb = message.data[2][1];
-	let fractalFlame = new Matrix(width, height);
-	let X, Y, cur_dot, chosenF, ranCoef;
+        let width  = message.data[0];
+        let height = message.data[1];
+        let coefs  = message.data[2][0]; // The set of affine coefficients
+        let len = coefs.length-1;
+        let rgb = message.data[2][1];
+        let fractalFlame = new Matrix(width, height);
+        let fractalFlameSpare = new Matrix(width, height);
+        let X, Y, cur_dot, chosenF, ranCoef;
         let chosenFunc = Functions[message.data[3]].func;
         let scaleX = Functions[message.data[3]].scaleX;
         let scaleY = Functions[message.data[3]].scaleY;
         let offsetX, offsetY, p1, p2, p3, p4;
+        let bitMap = new ImageData(width, height);
+        let max = 0;
+        let GammaMod; // Gamma correction.
+        let Gamma = 2.2; // Gamma correction.
 
         // Some results must be shifted to make pictures more attractive.
         // Besides some functions need extra parameters.
@@ -270,6 +253,7 @@
                        p2 = 1+Math.random();
                        p3 = 1+30*Math.random();
                        break;
+
           case 'PDJ': offsetX = Math.round(width*0.2);
                       offsetY = Math.round(height*0.15);
                       let ran= Math.round(Math.random()*len);
@@ -283,10 +267,6 @@
                       offsetY = Math.round(height*0.15);
                       break;
 
-          /*case 'JuliaScope':offsetX = 0;
-                            offsetY = 0;
-                            p1 = 10//+50*Math.random()//Math.random();
-                            p2 = 10+40*Math.random()//Math.random();*/
           default: offsetX = 0;
                    offsetY = 0;
         }
@@ -315,46 +295,68 @@
               fractalFlame.inc(cur_dot[0],cur_dot[1]);
             }
           }
-          self.postMessage(fractalFlame);
+          
+          max = 0;
+          
+          for (let i = width*height*4-1; i > 2; i -= 4){
+            // Scale the colors by counter and take logarithm of it.
+            if(fractalFlame.entries[i]){
+              fractalFlameSpare.entries[i-3] = fractalFlame.entries[i-3]/fractalFlame.entries[i];
+              fractalFlameSpare.entries[i-2] = fractalFlame.entries[i-2]/fractalFlame.entries[i];
+              fractalFlameSpare.entries[i-1] = fractalFlame.entries[i-1]/fractalFlame.entries[i];
+              fractalFlameSpare.entries[i] = Math.log10(fractalFlame.entries[i]);
+            }
+            max = Math.max(fractalFlameSpare.entries[i], max);
+          }
+
+          for (let i = width*height*4-1; i > 2; i -= 4){
+            GammaMod = Math.pow(fractalFlameSpare.entries[i]/max,1/Gamma);
+            bitMap.data[i]   = 255*fractalFlameSpare.entries[i]/max;
+            bitMap.data[i-3] = fractalFlameSpare.entries[i-3]*GammaMod;
+            bitMap.data[i-2] = fractalFlameSpare.entries[i-2]*GammaMod;
+            bitMap.data[i-1] = fractalFlameSpare.entries[i-1]*GammaMod;
+          }
+          
+          self.postMessage(bitMap);
         }
-        self.close();
+        self.postMessage(true);
       }
 
 
-	</script>
-	<script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.js" defer></script>
-	<script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/EventListeners.js" defer></script>
-    </head>
+    </script>
+    <script type="text/javascript" src="C:/Users/df/Desktop/FractalFlame.js" defer></script>
+    <script type="text/javascript" src="C:/Users/df/Desktop/EventListeners.js" defer></script>
+  </head>
 
-    <body>
+  <body>
   
     <!-- The image production is done in a way, that only horizontally placed phones can produce pretty results. -->
-    <h1 id="rotationNote">Please rotate your device for a better experience.</h1>
+    <p id="rotationNote">Please rotate your device for a better experience.</p>
     
     <div id='mainPage'>
 
       <div id='infoPage'>
-        <h2>Fractal flames</h2>
+        <p id='InfoHeader'>Fractal flames</p>
         <p class="InfoParagraph"> The main intention of this page is to create aesthetically pleasing images. 
-        Though most of results will be interesting/beautuful, there is a chance that something weird/ugly will be produced.
-        In that case just click on the "Create" button and wait for the next result.
-        The creation of images is extremely slow, so to get a good result you have to wait some time. Depending on the fractal type it can take up 
-        to 1 minute. Every few seconds the image is modified, so meanwhile you can just watch the creation process. There are several parameters you can play with:
+          Though most of results will be interesting/beautuful, there is a chance that something weird/ugly will be produced.
+          In that case just click on the "Create" button and wait for the next result.
+          The creation of images is extremely slow, so to get a good result you have to wait some time. Depending on the fractal type it can take up 
+          to 1 minute. Every few seconds the image is modified, so meanwhile you can just watch the creation process.
+          <br><br>
+          There are two parameters and buttons:
         </p>
         <ol id='list'>
           <li>"Fractal type" defines the function, which will be used to produce the images. It is the main part. Changing it does not automatically create new image.</li>
           <br>
-          <li>"Magic number" defines the number of affine coefficient sets. These are geometrical transformations. "Magic number" affects the appearence of the final image. Changing it does not automatically create new image.</li>
+          <li>"Magic number" defines the number of affine coefficient sets. These are geometrical transformations. "Magic number" affects the appearence of the final image. Larger values increase the creation time. Changing it does not automatically create new image.</li>
           <br>
-          <li>"Gamma" parameter can be used to increase/decrease the brightness of the picture. Changing it does not automatically create new image.</li>
+          <li>"Create" button creates a new image. Every time you press it, it becomes shortly disabled until the first frame is done. After that you can use it again.</li>
           <br>
-          <li>"Create" button creates a new image. Every time you press it, it becomes shortly disabled untill the first frame is done. After that you can use it again.</li>
-          <br>
-          <li>"Info"/"Back" changes between this Info menu and the canvas. While reading this an image is being created. When you get back, it will be more attractive.
+          <li>"Info"/"Back" changes between this Info menu and the canvas. While reading this an image is being created. When you get back, it will be more attractive.</li>
         </ol>
         <p class="InfoParagraph">
-        Unfortunately there is no way to predict how the next image will look like. Each new picture gets its own random affine transformations and colors.
-        There is practically no chance to get the same image again. Although most images will be build according to some pattern, some will be extraordinary.
+          Unfortunately there is no way to predict how the next image will look like. Each new picture gets its own random affine transformations and colors.
+          There is practically no chance to get the same image again. Although most images will be build according to some pattern, some will be extraordinary.
         </p>
       </div>
 
@@ -393,28 +395,10 @@
             <option value='PDJ'>PDJ</option>
             <option value='PDJ2'>PDJ2</option>
             <option value='Pipe'>Pipe</option>
-            <!-- <option value='Rings2'>Rings2</option> -->
             <option value='Eyefish'>Eyefish</option>
             <option value='Bubble'>Bubble</option>
             <option value='Cylinder'>Cylinder</option>
-            <!-- <option value='Perspective'>Perspective</option>
-            <option value='Noise'>Noise</option>
-            <option value='JuliaN'>JuliaN</option>
-            <option value='JuliaScope'>JuliaScope</option>
-            <option value='Blur'>Blur</option>
-            <option value='Gaussian'>Gaussian</option>
-            <option value='RadialBlur'>RadialBlur</option>
-            <option value='Pie'>Pie</option>
-            <option value='Ngon'>Ngon</option>
-            <option value='Curl'>Curl</option>
-            <option value='Rectangles'>Rectangles</option>
-            <option value='Arch'>Arch</option> -->
             <option value='Tangent'>Tangent</option>
-            <!-- <option value='Square'>Square</option> -->
-            <!-- <option value='Rays'>Rays</option> -->
-            <!-- <option value='Blade'>Blade</option> -->
-            <!-- <option value='Secant'>Secant</option> -->
-            <!-- <option value='Twintrian'>Twintrian</option> -->
             <option value='Cross'>Cross</option>
           </select>
         </div>
@@ -445,18 +429,11 @@
           </select>
         </div>
 
-        <!-- Gamma factor for the gamma correction of colors. -->
-        <div class="selectDiv" id="selectGammaDiv">
-          <label for="gamma">Gamma:</label>
-          <select name="gamma" id="selectGamma">
-          </select>
-        </div>
-
         <button class="Button" id='ButtonCreate'>Create</button>
 
         <button class="Button" id='ButtonInfo'>Info</button>
 
       </div>
     </div>
-	</body>
+  </body>
 </html>
