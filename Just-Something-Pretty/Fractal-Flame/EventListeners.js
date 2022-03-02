@@ -1,20 +1,7 @@
 "use strict";
 
-
 // If a device is in a vertical position then tell a user to rotate it.
 if(common.Canvas.width < common.Canvas.height) document.getElementById('rotationNote').style.display = 'block';
-
-// Add the gamma parameters to the "Gamma" menu. The step is 0.1.
-(function(){
-  let gammaMenu = document.getElementById('selectGamma');
-  for(let i = 1; i <= 6.1; i += 0.1){
-    let curOption = document.createElement('option');
-    curOption.value = String(i.toFixed(1));
-    curOption.text = String(i.toFixed(1));
-    gammaMenu.appendChild(curOption);
-  }
-  gammaMenu.value = 2.2;
-})();
 
 window.addEventListener('resize', 
 () => {
@@ -56,11 +43,6 @@ document.getElementById('selectAffine').addEventListener('change',
   () => {common.numberOfCoeffs = Number(document.getElementById('selectAffine').value);
 });
 
-// Set the parameter 'Gamma' from "common" to the chosen value.
-document.getElementById('selectGamma').addEventListener('change',
-  () => {common.Gamma = Number(document.getElementById('selectGamma').value);
-});
-
 // Modify the web worker on click.
 document.getElementById('ButtonCreate').addEventListener('click', modifyWorker);
 
@@ -78,21 +60,21 @@ document.getElementById('ButtonCreate').addEventListener('click',
 
 document.getElementById('ButtonInfo').addEventListener('click', 
   () => {
-    if(common.allowed){
-      document.getElementById('infoPage').style.display = 'inline-block';
-      document.getElementById('Canvas').style.display = 'none';
-      document.getElementById('ButtonCreate').disabled = 'true';
-      document.getElementById('ButtonCreate').style.cursor = 'default';
-      document.getElementById('ButtonInfo').innerHTML = 'Back';
-      common.allowed = false;
-    }
-    else{
-      document.getElementById('infoPage').style.display = 'none';
-      document.getElementById('Canvas').style.display = 'inline-block';
-      document.getElementById('ButtonCreate').disabled = '';
-      document.getElementById('ButtonCreate').style.cursor = 'pointer';
-      document.getElementById('ButtonInfo').innerHTML = 'Info';
-      common.allowed = true;
-    }
+  if(common.allowed){
+    document.getElementById('infoPage').style.display = 'inline-block';
+    document.getElementById('Canvas').style.display = 'none';
+    document.getElementById('ButtonCreate').disabled = 'true';
+    document.getElementById('ButtonCreate').style.cursor = 'default';
+    document.getElementById('ButtonInfo').innerText = 'Back';
+    common.allowed = false;
+  }
+  else{
+    document.getElementById('infoPage').style.display = 'none';
+    document.getElementById('Canvas').style.display = 'inline-block';
+    document.getElementById('ButtonCreate').disabled = '';
+    document.getElementById('ButtonCreate').style.cursor = 'pointer';
+    document.getElementById('ButtonInfo').innerText = 'Info';
+    common.allowed = true;
+  }
   }
 );
