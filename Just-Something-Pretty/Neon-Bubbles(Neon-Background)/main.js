@@ -4,10 +4,6 @@
 
 "use strict";
 
-let loadingPage = document.getElementById('loadingPage').style;
-let mainPage = document.getElementById('mainPage').style;
-loadingPage.display = 'block';
-
 const Canvas = document.getElementById('Canvas');
 let ctx, background, bubbles, set_border;
 
@@ -104,6 +100,8 @@ window.addEventListener('resize',()=> initializeAll());
 
 document.getElementById('Change_Background_Button').addEventListener('click', () => background.modifyBackground());
 
+let loadingPage = document.getElementById('loadingPage').style;
+let mainPage = document.getElementById('mainPage').style;
 loadingPage.display = 'none';
 mainPage.display = 'block';
 
