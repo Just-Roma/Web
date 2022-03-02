@@ -6,6 +6,3 @@ RunMe.html combines all together and is just a spare file for the case the NeonB
 
 Just use this link to open it:
 https://htmlpreview.github.io/?https://github.com/Just-Roma/Web/blob/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/NeonBubbles.html
-
-Or this one:
-https://htmlpreview.github.io/?https://github.com/Just-Roma/Web/blob/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/RunMe.html
