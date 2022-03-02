@@ -100,6 +100,9 @@ window.addEventListener('resize',()=> initializeAll());
 
 document.getElementById('Change_Background_Button').addEventListener('click', () => background.modifyBackground());
 
+document.getElementById('loadingPage').style.display = 'none';
+document.getElementById('mainPage').style.display = 'block';
+
 (function march(){
 	background.print();
 	bubbles.print();
