@@ -100,8 +100,10 @@ window.addEventListener('resize',()=> initializeAll());
 
 document.getElementById('Change_Background_Button').addEventListener('click', () => background.modifyBackground());
 
-document.getElementById('loadingPage').style.display = 'none';
-document.getElementById('mainPage').style.display = 'block';
+let loadingPage = document.getElementById('loadingPage').style;
+let mainPage = document.getElementById('mainPage').style;
+loadingPage.display = 'none';
+mainPage.display = 'block';
 
 (function march(){
 	background.print();
