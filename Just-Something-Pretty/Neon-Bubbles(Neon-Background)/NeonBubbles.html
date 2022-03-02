@@ -8,6 +8,38 @@
 		<!-- this link does not guarantee that png will be in the bar -->
 		<link rel='icon' href='https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/Bubble_dark.png'/>
 
+		<!-- Style is added here to guarantee the good-looking initialization of the page in Github. -->
+		<!-- Unfortunately there are some obstacles with using CSS animation while page loading probably due to how github preview handles the loading process. -->
+		<!-- So the initial page is minimalistic. -->
+		<style>
+			html{
+				width:100%;
+				height:100%;
+				background-color:rgb(0,0,0);
+			}	
+			
+			#loadingPage{
+				position: absolute;
+				top: 45%;
+				left: 45%; 
+			}
+
+			#mainPage{
+				display:none;
+			}
+
+			#loadingText{
+				font-size:calc(1.5vw + 1.5vh);
+				color:rgb(255,255,155);
+				text-shadow:
+					0 0 7px  #ff0,
+					0 0 10px #ff0,
+					0 0 15px #ff0,
+					0 0 25px #ff0;
+			}
+
+		</style>
+		
 		<link rel='stylesheet' href='https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/NeonBubbles.css'/>
 
 		<script type='text/plain' src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/Bubbles.js" defer></script>
@@ -15,17 +47,13 @@
 		<script type='text/plain' src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Neon-Bubbles(Neon-Background)/main.js" defer></script>
 	</head>
 
-	<!-- Style is added in several tags to guarantee the proper initialization of the page in Github -->
-	<body style='background-color:#192734;'>
+	<body>
 
-		<div id='loadingPage' style='display:none;'>
+		<div id='loadingPage'>
 			<p id='loadingText'>Loading</p>
-        		<a href='https://en.wikipedia.org/wiki/Nazar_(amulet)' target='_blank'>
-				<button id='nazarAmulet'>&#x1F9FF;</button>
-			</a>
 		</div>
 
-		<div id='mainPage' style='display:none;'>
+		<div id='mainPage'>
 			<canvas id='Canvas'></canvas>
 
 			<div id='Menu'>
