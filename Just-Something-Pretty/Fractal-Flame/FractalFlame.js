@@ -42,9 +42,9 @@ function assignCoeffs(size){
 		f = Math.random()*2 - 1;
 		out1.push([a,b,c,d,e,f]);
 
-    do{
-      rgb = [Math.round(Math.random()*255), Math.round(Math.random()*155), Math.round(Math.random()*155)];
-    }while(Math.max(...rgb) < 100);
+	do{
+		rgb = [Math.round(Math.random()*255), Math.round(Math.random()*155), Math.round(Math.random()*155)];
+	}while(Math.max(...rgb) < 100);
 
 		out2.push(rgb);
 		size--;
@@ -54,67 +54,36 @@ function assignCoeffs(size){
 
 
 function workIt(event){
+	if (typeof event.data == 'boolean'){
+		common.workerDone = true;
+	}
+	else{
+		common.ctx.putImageData(event.data, 0, 0); // print the image on the canvas.
+	}
 
-  let max = 0;
-  let fractalFlame = event.data;
-
-  for (let i = common.width*common.height*4-1; i > 2; i -= 4){
-
-    // Scale the colors by counter and take logarithm of it.
-    if(fractalFlame.entries[i]){
-      fractalFlame.entries[i-3] /= fractalFlame.entries[i];
-      fractalFlame.entries[i-2] /= fractalFlame.entries[i];
-      fractalFlame.entries[i-1] /= fractalFlame.entries[i];
-      fractalFlame.entries[i] = Math.log10(fractalFlame.entries[i]);
-    }
-    max = Math.max(fractalFlame.entries[i], max);
-  }
-
-  let GammaMod; // Gamma correction.
-  let bitMap = common.Image;
-  let Gamma = common.Gamma;
-  for (let i = common.width*common.height*4-1; i > 2; i -= 4){
-
-    GammaMod = Math.pow(fractalFlame.entries[i]/max,1/Gamma);
-    bitMap.data[i]   = 255*fractalFlame.entries[i]/max;
-    bitMap.data[i-3] = fractalFlame.entries[i-3]*GammaMod;
-    bitMap.data[i-2] = fractalFlame.entries[i-2]*GammaMod;
-    bitMap.data[i-1] = fractalFlame.entries[i-1]*GammaMod;
-  }
-  common.ctx.putImageData(bitMap, 0, 0); // print the image on the canvas.
-  
-  // This little part "turns on" the "Create" button if the image was already printed and a user is not in the info menu.
-  if(common.disabled && common.allowed){
-    document.getElementById('ButtonCreate').disabled='';
-    common.disabled = false;
-    document.getElementById('ButtonCreate').style.cursor = 'pointer';
-  }
+	// This little part "turns on" the "Create" button if the image was already printed and a user is not in the info menu.
+	if(common.disabled && common.allowed){
+		document.getElementById('ButtonCreate').disabled='';
+		common.disabled = false;
+		document.getElementById('ButtonCreate').style.cursor = 'pointer';
+	}
 }
 
 // This function closes the old worker and creates a new one.
 // It also sends a message to the Worker, which includes the sizes of the matrix, affine coeefs and mode value.
 function modifyWorker(){
-  common.worker.terminate();
-  common.worker = new Worker(URL.createObjectURL(common.blob));
-  common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
-  common.worker.onmessage = workIt;
+	if (!common.workerDone){
+		common.worker.terminate();
+		common.worker = new Worker(URL.createObjectURL(common.blob));
+	}
+	common.workerDone = false;
+	common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
+	common.worker.onmessage = workIt;
 }
 
-// Add the gamma parameters to the "Gamma" menu. The step is 0.1.
-(function(){
-  let gammaMenu = document.getElementById('selectGamma');
-  for(let i = 1; i <= 6; i += 0.1){
-    let curOption = document.createElement('option');
-    curOption.value = String(i.toFixed(1));
-    curOption.text = String(i.toFixed(1));
-    gammaMenu.appendChild(curOption);
-  }
-  gammaMenu.value = 2.2;
-})();
 
-
-/*************************************************************************/
-/* Here comes the definition of different parameters and event listeners */
+/*****************************************************/
+/* Here comes the definition of different parameters */
 
 let common = {'Canvas' : document.getElementById('Canvas'),
               'ctx' : document.getElementById('Canvas').getContext('2d')};
@@ -122,21 +91,20 @@ let common = {'Canvas' : document.getElementById('Canvas'),
 common.Canvas.width  = Math.round(window.innerWidth*0.85);
 common.Canvas.height = window.innerHeight;
 
-Object.assign(common, {'width' : common.Canvas.width, 'height' : common.Canvas.height});
-
-Object.assign(common,  
-              {'Image' : common.ctx.createImageData(common.width, common.height),
-              'Gamma' : 2.2,
+Object.assign(common,
+              {'width' : common.Canvas.width,
+              'height' : common.Canvas.height,
               'blob'  : new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
               'worker': null,
               'numberOfCoeffs' : Number(document.getElementById('selectAffine').value),
               'disabled': false,
-              'allowed': true});
-              
+              'allowed': true,
+              'workerDone': false});
+
 common.worker = new Worker(URL.createObjectURL(common.blob));
-common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
 common.worker.onmessage = workIt;
-              
+common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
+
 /* Each function can use a user predefined number of affine transformations('numberOfCoeffs' in "common").
    This number will affect the resulting image */
 let lookupCoeffs = {'Linear': [4,20],
@@ -169,11 +137,6 @@ let lookupCoeffs = {'Linear': [4,20],
                     'Eyefish': [15,100],
                     'Bubble': [15,50],
                     'Cylinder': [15,50],
-                    //'JuliaScope': [15,40],
-                    // 'Arch': [15,50],
                     'Tangent': [15,50],
-                    // 'Square': [15,50],
-                    // 'Twintrian': [10,50],
                     'Cross': [10,50]
-
 }
