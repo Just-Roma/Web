@@ -98,7 +98,8 @@
       'Diamond': {'func': function(x, y){
         let r = rFunc(x, y);
         let Teta = tetaFunc(x, y);
-        return [Math.sin(Teta)*Math.cos(r), Math.cos(Teta)*Math.sin(r)];
+        if (Math.random() < 0.5) return [Math.sin(Teta)*Math.cos(r), -Math.cos(Teta)*Math.sin(r)];
+        else return [Math.sin(Teta)*Math.cos(r), Math.cos(Teta)*Math.sin(r)];
       }, 'scaleX': 2.1, 'scaleY': 2.1},
 
       'Ex': {'func': function(x, y){
@@ -144,7 +145,8 @@
       'Power': {'func': function(x, y){
         let Teta = tetaFunc(x, y);
         let r = Math.pow(rFunc(x, y), Math.sin(Teta));
-        return [r * Math.cos(Teta), r * Math.sin(Teta)];
+        if (Math.random() < 0.5) return [r * Math.cos(Teta), r * Math.sin(Teta)];
+        else return [-r * Math.cos(Teta), r * Math.sin(Teta)];
       }, 'scaleX': 5, 'scaleY': 5},
 
       'Cosine': {'func': function(x, y){
