@@ -68,6 +68,20 @@ select{
   display:block;
 }
 
+h1{
+	width:100%;
+	text-align: center;
+	margin:0px;
+	margin-left:0.1vw;
+	margin-top:1vw;
+	padding:0px;
+	font-size:calc(1.5vw + 1vh);
+	color:rgb(220,20,60);
+	text-shadow:
+		0 0 1px  rgb(220,20,60),
+		0 0 2px  rgb(220,20,60);
+}
+
 #Canvas{
   width:85%;
   display:inline-block;
