@@ -12,7 +12,7 @@ body{
 
 label{
   display:block;
-  font-size:calc(0.7vw + 0.7vh);
+  font-size:calc(0.9vw + 0.9vh);
   margin-bottom:0.3vh;
 }
 
