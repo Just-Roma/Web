@@ -80,8 +80,8 @@ function modifyWorker(){
     common.worker = new Worker(URL.createObjectURL(common.blob));
   }
   common.workerDone = false;
-  common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
   common.worker.onmessage = workIt;
+  common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
 }
 
 
