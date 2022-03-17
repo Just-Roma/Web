@@ -204,7 +204,7 @@ function createBubbles(canvas){
 
 	// n_bubbles restricts the amount of bubbles to be printed, max allowed number is 50.
 	let n_bubbles = Math.min(50, Math.round(width/refRad*height/refRad));
-	document.getElementById('Settings_Number_Of_Bubbles')max = n_bubbles;
+	//document.getElementById('Settings_Number_Of_Bubbles')max = n_bubbles;
 
 	// RGB defines the "average" color of a bubble.
 	let RGB = [0, 255, 255];
