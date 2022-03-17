@@ -70,7 +70,7 @@ function initializeAll(){
 	// -1 is exactly as in the Bubbles.js to avoid the chance of producing another number.
 	let refRad = Math.min(120,Math.round(Canvas.width*Canvas.height/7400));
 	if(refRad < 40) refRad = 40;
-	document.getElementById('Settings_Number_Of_Bubbles').max = Math.min(50, Math.round((Canvas.width-1)*(Canvas.height-1)/(refRad*2 * refRad*2)));
+	document.getElementById('Setting_bubbles_number').max = Math.min(50, Math.round((Canvas.width-1)*(Canvas.height-1)/(refRad*2 * refRad*2)));
 
 	// Create bubbles/background objects.
 	background = createBackground(Canvas);
