@@ -203,14 +203,15 @@ function createBubbles(canvas){
 	const height = canvas.height - 1;
 
 	// n_bubbles restricts the amount of bubbles to be printed, max allowed number is 50.
-	let n_bubbles = Math.min(50, Math.round(width*height/15000));
+	let n_bubbles = Math.min(50, Math.round(width/refRad*height/refRad));
+	document.getElementById('Settings_Number_Of_Bubbles')max = n_bubbles;
 
 	// RGB defines the "average" color of a bubble.
 	let RGB = [0, 255, 255];
 
 	// Bubbles' initialization.
-	const o_O = Array.from({length: 50}, () => new Bubble());
-	for (let i = 0; i < 50; i++) {o_O[i].selfChange();}
+	const o_O = Array.from({length: n_bubbles}, () => new Bubble());
+	for (let i = 0; i < n_bubbles; i++) {o_O[i].selfChange();}
 
 	return {
 		red  (new_color){RGB[0] = Number(new_color.target.value);},
