@@ -42,17 +42,17 @@ let createBackground = function(canvas){
 		dotsCounter = Math.floor(0.005*width*height);
 
 		/* Here is the more interesting part. It puts the "dots clouds" on the canvas. These are gauss distributed groups of single dots.
-			x/y is the center of a such group, 
-			Pr decides if a current group can spawn another group, 
-			dir(direction) used to avoid placing groups back on already taken spots.
+		   x/y is the center of a such group, 
+		   Pr decides if a current group can spawn another group, 
+		   dir(direction) used to avoid placing groups back on already taken spots.
 		*/
 		function clouds(x, y, Pr, dir = 0){
 
 			if (x < 20 || x > W-20 || y < 20 || y > H-20) return;
 
 			/* 'amplifier' will "stretch" our random standard gauss. 
-				Math.log(Math.random()) is the random number generator for the standard exponential distribution.
-				This range is taken because i thought that results look good enough.
+			   Math.log(Math.random()) is the random number generator for the standard exponential distribution.
+			   This range is taken because i thought that results look good enough.
 			*/
 			let amplifier = 2 - Math.log(Math.random());
 
@@ -74,8 +74,8 @@ let createBackground = function(canvas){
 					if (protection >= 10) break;
 
 					/* Since gauss exists on all real numbers, it is possible that extreme values will be produced(unlikely though).
-						Just to be sure that our positions lie within the correct range, x/y are checked. 
-						2 pixels are added because of the border from main.js.
+					   Just to be sure that our positions lie within the correct range, x/y are checked. 
+					   2 pixels are added because of the border from main.js.
 					*/
 				}while (newX < 2 || newX > width-2 || newY < 0 || newY >= height || O_o.data[newY*width*4 + 4*newX+3]);
 
@@ -91,9 +91,9 @@ let createBackground = function(canvas){
 			}
 
 			/* It is unnecessary to spawn new centers in the previous direction from where it came, so for each case one direction must be excluded.
-				-Math.log(Math.random())/(1/amplifier) is the random exponential distribution. 
-				Lambda depends on amplifier. Larger amplifier throws the new center further away.
-				'amplifier*2' is added to lower the possibility of too dense clusters.
+			   -Math.log(Math.random())/(1/amplifier) is the random exponential distribution. 
+			   Lambda depends on amplifier. Larger amplifier throws the new center further away.
+			   'amplifier*2' is added to lower the possibility of too dense clusters.
 			*/
 			if(Math.random() < Pr && amplifier/15 < Math.random() && dir != 4){
 				clouds(x+amplifier*2+(-Math.log(Math.random())/(1/amplifier)), y+amplifier*2+(-Math.log(Math.random())/(1/amplifier)), Pr-0.01, 1);
@@ -110,11 +110,11 @@ let createBackground = function(canvas){
 		}
 
 		/* Some number of clouds based on the resolution is chosen. 
-			The allowed area is reduced to decrease the probability that clouds on the canvas' edges will be cut. */
+		   The allowed area is reduced to decrease the probability that clouds on the canvas' edges will be cut. */
 		for (let i = Math.round(width*height/25000); i >= 0; i--) clouds(50 + Math.random()*(width-100),75+ Math.random()*(height-150), 0.5);
 
 		/* The 'directions' array is filled here. 30 bits(starting from LSB) correspond to the dot's index in O_o(Image map).
-			the 31th bit is used for direction(1 or 0). */
+		   the 31th bit is used for direction(1 or 0). */
 		directions = Array.from({length: dotsCounter}, () => Math.round(Math.random()));
 		dotsCounter--;
 		for(let x = W; x >= 0; x--){
@@ -130,7 +130,7 @@ let createBackground = function(canvas){
 	modifyBackground();
 
 	/* >>30 to extract the direction, &1073741823 to extract the index, 1073741823 is 2^30-1 in binary, 1111...111 30 times.
-		|1073741824 to set the direction. 1073741824 is 2^30 or 1000...000 */
+	   |1073741824 to set the direction. 1073741824 is 2^30 or 1000...000 */
 	function actualiseDots(){
 
 		for(let dot = directions.length-1; dot >= 0; dot--){
