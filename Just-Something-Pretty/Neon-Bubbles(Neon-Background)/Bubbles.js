@@ -212,12 +212,12 @@ function createBubbles(canvas){
 	const o_O = Array.from({length: 50}, () => new Bubble());
 	for (let i = 0; i < 50; i++) {o_O[i].selfChange();}
 
+	let BubblesSetter = document.getElementById('Setting_bubbles_number');
+
 	return {
 		red  (new_color){RGB[0] = Number(new_color.target.value);},
 		green(new_color){RGB[1] = Number(new_color.target.value);},
 		blue (new_color){RGB[2] = Number(new_color.target.value);},
-		size (n){n_bubbles = Number(n.target.value);},
-		setTag(tagId){document.getElementById(tagId).value = Math.ceil(n_bubbles/2);},
-		print(){for (let i = n_bubbles-1; i >= 0; i--) o_O[i].print();}
+		print(){for (let i = BubblesSetter.value-1; i >= 0; i--) o_O[i].print();}
 	}
 };
