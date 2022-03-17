@@ -5,7 +5,7 @@
 "use strict";
 
 const Canvas = document.getElementById('Canvas');
-let ctx, background, bubbles, set_border;
+let ctx, background = {}, bubbles = {}, set_border;
 
 /* This function prints a transparency "transition border", which makes every canvas' edge progressively transparent.
 	The main intention of this border is to let the background slowly come "out of nowhere" from the top and "dissappear" at the bottom.
