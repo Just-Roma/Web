@@ -217,7 +217,7 @@ function createBubbles(canvas){
 		green(new_color){RGB[1] = Number(new_color.target.value);},
 		blue (new_color){RGB[2] = Number(new_color.target.value);},
 		size (n){n_bubbles = Number(n.target.value);},
-		setTag(tagId){document.getElementById(tagId).value = n_bubbles;},
+		setTag(tagId){document.getElementById(tagId).value = Math.ceil(n_bubbles/2);},
 		print(){for (let i = n_bubbles-1; i >= 0; i--) o_O[i].print();}
 	}
 };
