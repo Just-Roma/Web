@@ -161,8 +161,8 @@ function createBubbles(canvas){
 
 			// To make the picture more interesting the bubbles will have slightly different colors.
 			this.rgb = 'rgba(' + (RGB[0]-25+Math.round(Math.random()*50)) + ','
-									 +	(RGB[1]-25+Math.round(Math.random()*50)) + ','
-									 +	(RGB[2]-25+Math.round(Math.random()*50)) + ',';
+					   + (RGB[1]-25+Math.round(Math.random()*50)) + ','
+					   + (RGB[2]-25+Math.round(Math.random()*50)) + ',';
 
 			this.amplifier = this.amplifier_max-1;
 
@@ -177,10 +177,10 @@ function createBubbles(canvas){
 			*/
 			let currentAmplifier = this.amplifier_max - Math.abs(this.amplifier % this.amplifier_max);
 			ctx.drawImage(offCanvas[currentAmplifier - 1],
-							  this.x - (refRad + 5)*this.scale,
-							  this.y - (refRad + 5)*this.scale,
-							  this.scale*offCanvasWH,
-							  this.scale*offCanvasWH);
+				      this.x - (refRad + 5)*this.scale,
+				      this.y - (refRad + 5)*this.scale,
+				      this.scale*offCanvasWH,
+				      this.scale*offCanvasWH);
 
 			// Put a color on the basement, fillStyle's opacity must be adjusted according to "currentAmplifier".
 			ctx.globalCompositeOperation = 'color';
