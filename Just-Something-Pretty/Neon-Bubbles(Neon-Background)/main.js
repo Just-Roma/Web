@@ -69,7 +69,7 @@ function initializeAll(){
 	// Adjust the Bubbles' size parameters. refRad is the Bubbles's radius as in the Bubbles.js
 	let refRad = Math.min(120,Math.round(Canvas.width*Canvas.height/7400));
 	if(refRad < 40) refRad = 40;
-	document.getElementById('Settings_Number_Of_Bubbles').max = Math.min(50, Math.round(width*height/(refRad*2 * refRad*2)));
+	document.getElementById('Settings_Number_Of_Bubbles').max = Math.min(50, Math.round(Canvas.width*Canvas.height/(refRad*2 * refRad*2)));
 
 	// Create bubbles/background objects.
 	background = createBackground(Canvas);
