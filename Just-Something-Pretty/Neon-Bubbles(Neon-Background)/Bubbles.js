@@ -9,16 +9,16 @@
 function createBubbles(canvas){
 
 	/* The bubbles' radiuses are integers. The largest one(stored in refRad) is taken as a reference for creating the others,
-		despite the fact that it needs more space. The reason is simple: it looks better by scaling, using the smallest one would create awful results.
-		You can play around with this value(set to some positive integer), the code below will response automatically.
+	   despite the fact that it needs more space. The reason is simple: it looks better by scaling, using the smallest one would create awful results.
+	   You can play around with this value(set to some positive integer), the code below will response automatically.
 	*/
 	let refRad = Math.min(120,Math.round(canvas.width*canvas.height/7400));
 	if(refRad < 40) refRad = 40; // For mobile screens.
 
 	/* Since a bubbles's pattern is relatively complicated, it would be very inefficient to compute it in each new frame.
-		So a stack of frames will be initialised and used later for animation.
-		Although scaling images in drawImage is not recommended, we'll do it anyway, otherwise the number of predefined frames will be too large.
-		The frames will be stored in a set of small offscreen canvases. 
+	   So a stack of frames will be initialised and used later for animation.
+	   Although scaling images in drawImage is not recommended, we'll do it anyway, otherwise the number of predefined frames will be too large.
+	   The frames will be stored in a set of small offscreen canvases. 
 	*/
 	const offCanvas = document.createElement('canvas');
 
@@ -49,8 +49,8 @@ function createBubbles(canvas){
 		let dist;
 
 		/* Opacity corresponds to the exponential distribution(lambda = 1), but the normal results will be too smooth.
-			To make it more "rugged" a random value from [-0.15, 0.15] is added, these values are chosen arbitrarily, based on my taste.
-			The x axis must be scaled, otherwise the majority of values will be ~ 0. The area between 0 and 3.(3) covers ~ 96 % of distribution.
+		   To make it more "rugged" a random value from [-0.15, 0.15] is added, these values are chosen arbitrarily, based on my taste.
+		   The x axis must be scaled, otherwise the majority of values will be ~ 0. The area between 0 and 3.(3) covers ~ 96 % of distribution.
 		*/
 		for(let x = refRad*2; x >= 0; x--){
 			for(let y = refRad*2; y >= 0; y--){
@@ -62,15 +62,16 @@ function createBubbles(canvas){
 		}
 
 		/* ImageData object will be filled and then printed on the canvas. It's much faster than filling the canvas.
-			Though constructor ImageData can be used, it's experimental(not completely supported) at the date of writing. */
+		   Though constructor ImageData can be used, it's experimental(not completely supported) at the date of writing. 
+		*/
 		let imageData = offCanvas.getContext('2d').createImageData(refRad*2+1, refRad*2+1);
 		let ctxFrame;
 
 		let amplifier = 1.5;
 
 		/* Each frame will be filled with some color(R=G=B) from [100, 200], which correlates with opacity.
-			This colors' range was chosen to make bubbles as juicy as possible but not too bright.
-			It can be adjusted below to get another rendering results.
+		   This colors' range was chosen to make bubbles as juicy as possible but not too bright.
+		   It can be adjusted below to get another rendering results.
 		*/
 		let colors, color;
 		let center = refRad+5; // bubble's center on an off-screen canvas.
@@ -140,18 +141,19 @@ function createBubbles(canvas){
 			this.amplifier_max = Math.round((3.5 + 1.5*Math.random())*10);
 
 			/* It does not look good when bubbles overlap too much, give em a chance to find an empty spot.
-				Testing showed that increasing the min allowed distance spawns lots of little bubbles, 
-				besides it does not really look better when they don't overlap. */
+			   Testing showed that increasing the min allowed distance spawns lots of little bubbles, 
+			   besides it does not really look better when they don't overlap.
+			*/
 			let i = 0;
 			do{
 				this.radius = 25 + Math.round(Math.random()*(refRad-25));
 
 				this.speed = refRad/this.radius;
 
-				//	The valid width range is reduced by radius from the left/right side. 26 is because of the border from main.js
+				// The valid width range is reduced by radius from the left/right side. 26 is because of the border from main.js
 				this.x = 26 + this.radius + Math.round(Math.random()*(width - 2*this.radius - 52));
 
-				// the possible start position is shifted downwards, so bubbles won't flow beyond canvas.
+				// Еhe possible start position is shifted downwards, so bubbles won't flow beyond canvas.
 				this.y = this.radius + Math.ceil((this.amplifier_max*2-1)*this.speed + Math.random()*(height - (2*this.radius + (this.amplifier_max*2-1)*this.speed)));
 
 				i++;
@@ -170,8 +172,8 @@ function createBubbles(canvas){
 		print(){
 
 			/* First print the scaled opacity frame to put a basement for the further coloring.
-				The value of currentAmplifier is automatically calculated, it goes from 1 to 'amplifier_max' and then back to 1.
-				The second/third arguments must be shifted to the left top corner by the scaled frame radius.
+			   The value of currentAmplifier is automatically calculated, it goes from 1 to 'amplifier_max' and then back to 1.
+			   The second/third arguments must be shifted to the left top corner by the scaled frame radius.
 			*/
 			let currentAmplifier = this.amplifier_max - Math.abs(this.amplifier % this.amplifier_max);
 			ctx.drawImage(offCanvas[currentAmplifier - 1],
@@ -206,7 +208,7 @@ function createBubbles(canvas){
 	let n_bubbles = Math.min(50, Math.round(width*height/(refRad*2 * refRad*2)));
 
 	// RGB defines the "average" color of a bubble.
-	let RGB = [0, 255, 255];
+	let RGB = [document.getElementById('bubblesRed').value, document.getElementById('bubblesGreen').value, document.getElementById('bubblesBlue').value];
 
 	// Bubbles' initialization.
 	const o_O = Array.from({length: n_bubbles}, () => new Bubble());
