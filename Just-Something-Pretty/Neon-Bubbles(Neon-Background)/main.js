@@ -1,5 +1,5 @@
 /* This is the main script for the animation.
-	It defines the canvas' properties and sets some event listeners for the user interaction.
+   It defines the canvas' properties and sets some event listeners for the user interaction.
 */
 
 "use strict";
@@ -8,8 +8,8 @@ const Canvas = document.getElementById('Canvas');
 let ctx, background = {}, bubbles = {}, set_border;
 
 /* This function prints a transparency "transition border", which makes every canvas' edge progressively transparent.
-	The main intention of this border is to let the background slowly come "out of nowhere" from the top and "dissappear" at the bottom.
-	Though this border could be prerendered on an off-screen canvas, testing showed no significant difference.
+   The main intention of this border is to let the background slowly come "out of nowhere" from the top and "dissappear" at the bottom.
+   Though this border could be prerendered on an off-screen canvas, testing showed no significant difference.
 */
 
 function initializeBorder(){
