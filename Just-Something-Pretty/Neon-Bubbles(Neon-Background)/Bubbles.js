@@ -209,8 +209,8 @@ function createBubbles(canvas){
 	let RGB = [0, 255, 255];
 
 	// Bubbles' initialization.
-	const o_O = Array.from({length: 50}, () => new Bubble());
-	for (let i = 0; i < 50; i++) {o_O[i].selfChange();}
+	const o_O = Array.from({length: n_bubbles}, () => new Bubble());
+	for (let i = 0; i < n_bubbles; i++) {o_O[i].selfChange();}
 
 	let BubblesSetter = document.getElementById('Setting_bubbles_number');
 
