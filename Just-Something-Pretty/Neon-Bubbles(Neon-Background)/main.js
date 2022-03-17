@@ -70,7 +70,8 @@ function initializeAll(){
 	// -1 is exactly as in the Bubbles.js to avoid the chance of producing another number.
 	let refRad = Math.min(120,Math.round(Canvas.width*Canvas.height/7400));
 	if(refRad < 40) refRad = 40;
-	document.getElementById('Setting_bubbles_number').max = Math.min(50, Math.round((Canvas.width-1)*(Canvas.height-1)/(refRad*2 * refRad*2)));
+	bubblesNumberSetter.max = Math.min(50, Math.round((Canvas.width-1)*(Canvas.height-1)/(refRad*2 * refRad*2)));
+	bubblesNumberSetter.value = Math.ceil(bubblesNumberSetter.max/2);
 
 	// Create bubbles/background objects.
 	background = createBackground(Canvas);
@@ -84,7 +85,6 @@ function initializeAll(){
 	bubblesRed.addEventListener('change', bubbles.red);
 	bubblesGreen.addEventListener('change', bubbles.green);
 	bubblesBlue.addEventListener('change', bubbles.blue);
-	bubblesNumberSetter.addEventListener('change', bubbles.size);
 
 	// Reset the values.
 	backgroundRed.value = '255';
@@ -94,8 +94,6 @@ function initializeAll(){
 	bubblesRed.value = '0';
 	bubblesGreen.value = '255';
 	bubblesBlue.value = '255';
-
-	bubbles.setTag('Setting_bubbles_number');
 
 	set_border = initializeBorder();
 };
