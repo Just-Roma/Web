@@ -66,22 +66,30 @@ function initializeAll(){
 	Canvas.width  = Math.round(window.innerWidth* 0.85);
 	Canvas.height = window.innerHeight;
 
-	// Create bubbles/background objects.
-	background = createBackground(Canvas);
+	// Remove the previous background' Event Listeners first.
+	backgroundRed.removeEventListener('change', background.red);
+	backgroundGreen.removeEventListener('change', background.green);
+	backgroundBlue.removeEventListener('change', background.blue);
+
+	background = createBackground(Canvas); // Create background's interface object.
 
 	backgroundRed.addEventListener('change', background.red);
 	backgroundGreen.addEventListener('change', background.green);
 	backgroundBlue.addEventListener('change', background.blue);
 
-
-	// Adjust the Bubbles' size parameters. refRad is the Bubbles's radius as in the Bubbles.js
+	// Adjust the bubbles' size parameters. refRad is the Bubbles's radius as in the Bubbles.js
 	// -1 is exactly as in the Bubbles.js to avoid the chance of producing another number.
 	let refRad = Math.min(120,Math.round(Canvas.width*Canvas.height/7400));
 	if(refRad < 40) refRad = 40;
-
 	bubblesNumberSetter.max = Math.min(50, Math.round((Canvas.width-1)*(Canvas.height-1)/(refRad*2 * refRad*2)));
 	bubblesNumberSetter.value = Math.ceil(bubblesNumberSetter.max/2);
-	bubbles = createBubbles(Canvas);
+
+	// Remove the previous bubbles' Event Listeners.
+	bubblesRed.removeEventListener('change', bubbles.red);
+	bubblesGreen.removeEventListener('change', bubbles.green);
+	bubblesBlue.removeEventListener('change', bubbles.blue);
+
+	bubbles = createBubbles(Canvas); // Create bubble's interface object.
 
 	bubblesRed.addEventListener('change', bubbles.red);
 	bubblesGreen.addEventListener('change', bubbles.green);
@@ -92,7 +100,7 @@ function initializeAll(){
 initializeAll();
 
 // Change the canvas by window resizing.
-window.addEventListener('resize',()=> initializeAll());
+window.addEventListener('resize', () => initializeAll());
 
 document.getElementById('Change_Background_Button').addEventListener('click', () => background.modifyBackground());
 
