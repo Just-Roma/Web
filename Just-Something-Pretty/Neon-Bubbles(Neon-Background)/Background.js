@@ -12,7 +12,7 @@ let createBackground = function(canvas){
 
 	let O_o = ctx.createImageData(width, height); // Will contain the dots.
 	let directions; // A support object which will store the direction of opacity change(should it become brighter or fainter).
-	let RGB = [255, 0, 255]; // Default RGB.
+	let RGB = [document.getElementById('backgroundRed').value, document.getElementById('backgroundGreen').value, document.getElementById('backgroundBlue').value]; // Set RGB according to parameters.
 	let dotsCounter;
 
 	// The background is created here.
