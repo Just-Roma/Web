@@ -1,6 +1,6 @@
 /* This is the main script, which starts the creation of fractal flames.
    It uses the web worker, defined in FractalFlame.html for the calculations.
-   The web worker gets parameters from this script.
+   The web worker gets some parameters from this script.
 */
 
 "use strict";
@@ -88,18 +88,18 @@ function modifyWorker(){
 /*****************************************************/
 /* Here comes the definition of different parameters */
 
-let common = {'Canvas' : document.getElementById('Canvas'),
-              'ctx' : document.getElementById('Canvas').getContext('2d')};
+let common = {'Canvas': document.getElementById('Canvas'),
+              'ctx':    document.getElementById('Canvas').getContext('2d')};
 
 common.Canvas.width  = Math.round(window.innerWidth*0.85);
 common.Canvas.height = window.innerHeight;
 
 Object.assign(common,
-              {'width' : common.Canvas.width,
-              'height' : common.Canvas.height,
-              'blob'  : new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
+              {'width': common.Canvas.width,
+              'height': common.Canvas.height,
+              'blob':   new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
               'worker': null,
-              'numberOfCoeffs' : Number(document.getElementById('selectAffine').value),
+              'numberOfCoeffs': Number(document.getElementById('selectAffine').value),
               'disabled': false,
               'allowed': true,
               'workerDone': false});
@@ -118,6 +118,7 @@ let lookupCoeffs = {'Linear': [4,20],
                     'Polar': [10,30],
                     'Handkerchief': [10,30],
                     'Heart': [5,25],
+                    'Heart2': [5,25],
                     'Disc': [5,20],
                     'Spiral': [10,30],
                     'Hyperbolic': [10,30],
@@ -132,10 +133,8 @@ let lookupCoeffs = {'Linear': [4,20],
                     'Power': [10,40],
                     'Cosine': [10,40],
                     'Rings': [10,40],
-                    'Fan': [20,40],
                     'Blob': [10,40],
                     'PDJ': [50,200],
-                    'PDJ2': [50,200],
                     'Pipe': [10,40],
                     'Eyefish': [15,100],
                     'Bubble': [15,50],
