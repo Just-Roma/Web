@@ -38,15 +38,11 @@ select{
 
 ::-webkit-scrollbar-thumb {
   background-color:rgb(220,20,60);
-  border-radius: 2px;
+  border-radius:2px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#rotationNote{
-  display:none;
+  background:transparent;
 }
 
 #infoPage{
@@ -74,7 +70,7 @@ select{
 
 h1{
   width:100%;
-  text-align: center;
+  text-align:center;
   margin:0px;
   margin-left:0.1vw;
   margin-top:1vw;
@@ -98,20 +94,6 @@ h1{
   text-align:center;
   display:inline-block;
   color:rgb(220,20,60);
-}
-
-#rotationNote{
-  width:100%;
-  text-align: center;
-  margin:0px;
-  margin-left:0.1vw;
-  margin-top:1vw;
-  padding:0px;
-  font-size:calc(1.5vw + 1vh);
-  color:rgb(220,20,60);
-  text-shadow:
-    0 0 1px  rgb(220,20,60),
-    0 0 2px  rgb(220,20,60);
 }
 
 .selectDiv{
@@ -138,7 +120,7 @@ option{
   padding:0px;
   cursor:pointer;
   font-size:calc(0.9vw + 0.9vh);
-  background: #000;
+  background:#000;
   text-shadow:
     0 0 0px  rgb(220,20,60),
     0 0 1px  rgb(220,20,60),
