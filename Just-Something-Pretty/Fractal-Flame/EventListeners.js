@@ -1,15 +1,9 @@
 "use strict";
 
-// If a device is in a vertical position then tell a user to rotate it.
-if(common.Canvas.width < common.Canvas.height) document.getElementById('rotationNote').style.display = 'block';
-
 window.addEventListener('resize', 
 () => {
   common.Canvas.width  = Math.round(window.innerWidth*0.85);
   common.Canvas.height = window.innerHeight;
-  if(common.Canvas.width < common.Canvas.height) document.getElementById('rotationNote').style.display = 'block';
-  else document.getElementById('rotationNote').style.display = 'none';
-
   common.width  = common.Canvas.width;
   common.height = common.Canvas.height;
   common.Image = common.ctx.createImageData(common.width, common.height);
