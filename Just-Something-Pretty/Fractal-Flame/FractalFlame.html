@@ -4,7 +4,7 @@
     <meta charset='utf-8'/>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'/>
     <title>Fractal flame</title>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.css"/>
+    <link rel="stylesheet" href="C:Users/df/Desktop/FractalFlame.css"/>
     <script id="worker" type="javascript/worker">
 
       class Matrix{
@@ -168,7 +168,6 @@
         return [par*Math.cos(Teta), par*Math.sin(Teta)];
       }, 'scaleX': 5, 'scaleY': 3, 'setExtraPars': true},
 
-
       'Blob': {'func': function(x, y, extraPars){
         let r = Math.sqrt(x*x + y*y);
         let Teta = Math.atan2(x, y);
@@ -210,8 +209,37 @@
       'Cross': {'func': function(x, y){
         let par = Math.sqrt(1/(x*x-y*y)**2);
         return[par*x, par*y];
-      }, 'scaleX': 12, 'scaleY': 12, 'setExtraPars': false}
+      }, 'scaleX': 12, 'scaleY': 12, 'setExtraPars': false},
+      
+      'JuliaN': {'func': function(x, y, extraPars){
+        let r = x*x + y*y;     
+        let tmpr = (Math.atan2(x,y)+2*Math.PI*Math.trunc(extraPars.randomN*Math.random()))/1.1;
+        return[r*Math.cos(tmpr), r*Math.sin(tmpr)];
+      }, 'scaleX': 4, 'scaleY': 4, 'setExtraPars': false},
 
+      'Butterfly': {'func': function(x, y){  
+        let y2 = 2*y;
+        let r = 1.3029400317411197908970256609023 * Math.sqrt(Math.abs(x*y)/(x*x+y2*y2));
+        return[x*r, r*y2];
+      }, 'scaleX': 4.5, 'scaleY': 4.5, 'setExtraPars': false},
+      
+      'Foci': {'func': function(x, y){  
+        let expx = Math.exp(x)*0.5;
+        let expnx = 0.25/expx;
+        let tmp = 1/(expx + expnx - Math.cos(y));
+        return[ tmp * (expx - expnx),tmp * Math.sin(y)];
+      }, 'scaleX': 12.5, 'scaleY': 12.5, 'setExtraPars': false},
+      
+      'Loonie': {'func': function(x, y){  
+        let r = x*x + y*y;
+        if (r < 1){
+          r = Math.sqrt(1/r - 1);
+          x = r*x;
+          y = r*y;
+        }
+        return[x, y];
+      }, 'scaleX': 5, 'scaleY': 5, 'setExtraPars': false},
+      
       }
       
       // This is the part where the main job is done. All the algorithms from the Scott Drave's paper are here.
@@ -261,23 +289,33 @@
         // Besides some functions need extra parameters. Static dependent parameters are defined here.
         switch (message.data[3]){
 
-          case 'Spiral': offsetX = -Math.floor(width/7);
-                         offsetY = Math.floor(height/3);
-                         break;
+          case 'Spiral': 
+            offsetX = -Math.floor(width/7);
+            offsetY = Math.floor(height/3);
+            break;
 
-          case 'Blob': offsetX = 0;
-                       offsetY = 0;
-                       extraPars.p1 = Math.random();
-                       extraPars.p2 = 1+Math.random();
-                       extraPars.p3 = 1+30*Math.random();
-                       break;
+          case 'Blob': 
+            offsetX = 0;
+            offsetY = 0;
+            extraPars.p1 = Math.random();
+            extraPars.p2 = 1 + Math.random();
+            extraPars.p3 = 1 + 30*Math.random();
+            break;
 
-          case 'PDJ': offsetX = Math.round(width*0.3);
-                      offsetY = Math.round(height*0.15);
-                      break;
+          case 'PDJ': 
+            offsetX = Math.round(width*0.3);
+            offsetY = Math.round(height*0.15);
+            break;
 
-          default: offsetX = 0;
-                   offsetY = 0;
+          case 'JuliaN': 
+            offsetX = 0;
+            offsetY = 0;
+            extraPars.randomN = 1 + Math.round(Math.random()*100);
+            break;
+
+          default: 
+            offsetX = 0;
+            offsetY = 0;
         }
 
         // Since the calculation process is very slow, the web worker sends stepwise an actualized frame to the main script.
@@ -354,13 +392,14 @@
           
           self.postMessage(bitMap);
         }
+        
         self.postMessage(true);
       }
 
 
     </script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.js" defer></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/EventListeners.js" defer></script>
+    <script type="text/javascript" src="C:Users/df/Desktop/FractalFlame.js" defer></script>
+    <script type="text/javascript" src="C:Users/df/Desktop/EventListeners.js" defer></script>
   </head>
 
   <body>
@@ -429,7 +468,10 @@
             <option value='Bubble'>Bubble</option>
             <option value='Cylinder'>Cylinder</option>
             <option value='Tangent'>Tangent</option>
-            <option value='Cross'>Cross</option>
+            <option value='JuliaN'>JuliaN</option>
+            <option value='Butterfly'>Butterfly</option>
+            <option value='Foci'>Foci</option>
+            <option value='Loonie'>Loonie</option>
           </select>
         </div>
 
