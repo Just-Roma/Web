@@ -56,6 +56,7 @@ function assignCoeffs(size){
 }
 
 
+// workIt defines how to handle the incoming message from the worker
 function workIt(event){
   if (typeof event.data == 'boolean'){
     common.workerDone = true;
@@ -72,21 +73,29 @@ function workIt(event){
   }
 }
 
-// This function closes the old worker and creates a new one.
-// It also sends a message to the Worker, which includes the sizes of the matrix, affine coeefs and mode value.
+/* This function is executed on global object's resize event or when the "Create" button was clicked.
+   If the current worker is not done yet it will be closed and a new one created.
+   It also sends a message to the Worker, which includes the sizes of the matrix, affine coeefs and mode value.
+*/
 function modifyWorker(){
   if (!common.workerDone){
     common.worker.terminate();
     common.worker = new Worker(URL.createObjectURL(common.blob));
+    common.worker.addEventListener('error', function(event){      
+      if(confirm(event.message + '\n\nReload the page?')){
+        location.reload();
+      }
+    });
+    common.worker.onmessage = workIt;
   }
+
   common.workerDone = false;
-  common.worker.onmessage = workIt;
   common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
 }
 
 
-/*****************************************************/
-/* Here comes the definition of different parameters */
+/**************************************************/
+/* Here comes the definition of common parameters */
 
 let common = {'Canvas': document.getElementById('Canvas'),
               'ctx':    document.getElementById('Canvas').getContext('2d')};
@@ -103,10 +112,19 @@ Object.assign(common,
               'disabled': false,
               'allowed': true,
               'workerDone': false});
+/**************************************************/
 
+
+// Worker's initialization
 common.worker = new Worker(URL.createObjectURL(common.blob));
 common.worker.onmessage = workIt;
 common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
+common.worker.addEventListener('error', function(event) {
+  if(confirm(event.message + '\n\nReload the page?')){
+    location.reload();
+  }
+});///////////////////////
+
 
 /* Each function can use a user predefined number of affine transformations('numberOfCoeffs' in "common").
    This number will affect the resulting image */
@@ -140,5 +158,9 @@ let lookupCoeffs = {'Linear': [4,20],
                     'Bubble': [15,50],
                     'Cylinder': [15,50],
                     'Tangent': [15,50],
-                    'Cross': [10,50]
+                    'Cross': [10,50],
+                    'JuliaN': [10,30],
+                    'Butterfly': [10,30],
+                    'Foci': [10,20],
+                    'Loonie': [10,20]
 }
