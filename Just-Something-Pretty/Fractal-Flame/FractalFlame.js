@@ -5,6 +5,35 @@
 
 "use strict";
 
+
+/**************************************************************************************/
+/* Here comes the definition of common parameters and references to the html elements */
+
+let FuncNode = document.getElementById('selectFunc');
+let CanvasNode = document.getElementById('Canvas');
+let AffineNode = document.getElementById('selectAffine');
+
+CanvasNode.width  = Math.round(window.innerWidth*0.85);
+CanvasNode.height = window.innerHeight;
+
+/* "refToExtraBlock" is a reference to a div block(which lies within the div with id=dependentParameters) with dependent parameters.
+   "disabled" is for the "Create" button, which can be disabled under certain circumstances(a user is in the Info menu or the first frame is being created)
+   "allowed" is associated with the "Info" button, check EventListeners.js for further details.
+*/
+let common = {'ctx':            CanvasNode.getContext('2d'),
+              'width':          CanvasNode.width,
+              'height':         CanvasNode.height,
+              'blob':           new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
+              'worker':         null,
+              'numberOfCoeffs': Number(AffineNode.value),
+              'extraPars':      {'a':null, 'b':null, 'c':null, 'd':null, 'e':null, 'f':null, 'p1':null, 'p2':null, 'p3':null, 'p4':null},
+              'refToExtraBlock':{'display': null},
+              'disabled':       false,
+              'allowed':        true,
+              'workerDone':     false};
+/**************************************************************************************/
+
+
 /* Each function has a set of parameters - coefficients of an affine combination.
 
    (Xn+1) = (a b) * (Xn) + (c)
@@ -67,11 +96,12 @@ function workIt(event){
 
   // This little part "turns on" the "Create" button if the image was already printed and a user is not in the info menu.
   if(common.disabled && common.allowed){
-    document.getElementById('ButtonCreate').disabled='';
+    ButtonCreateNode.disabled='';
     common.disabled = false;
-    document.getElementById('ButtonCreate').style.cursor = 'pointer';
+    ButtonCreateNode.style.cursor = 'pointer';
   }
 }
+
 
 /* This function is executed on global object's resize event or when the "Create" button was clicked.
    If the current worker is not done yet it will be closed and a new one created.
@@ -90,35 +120,14 @@ function modifyWorker(){
   }
 
   common.workerDone = false;
-  common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
+  common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), FuncNode.value, common.extraPars]);
 }
-
-
-/**************************************************/
-/* Here comes the definition of common parameters */
-
-let common = {'Canvas': document.getElementById('Canvas'),
-              'ctx':    document.getElementById('Canvas').getContext('2d')};
-
-common.Canvas.width  = Math.round(window.innerWidth*0.85);
-common.Canvas.height = window.innerHeight;
-
-Object.assign(common,
-              {'width': common.Canvas.width,
-              'height': common.Canvas.height,
-              'blob':   new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
-              'worker': null,
-              'numberOfCoeffs': Number(document.getElementById('selectAffine').value),
-              'disabled': false,
-              'allowed': true,
-              'workerDone': false});
-/**************************************************/
 
 
 // Worker's initialization
 common.worker = new Worker(URL.createObjectURL(common.blob));
 common.worker.onmessage = workIt;
-common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), document.getElementById('selectFunc').value]);
+common.worker.postMessage([common.width, common.height, assignCoeffs(common.numberOfCoeffs), FuncNode.value, common.extraPars]);
 common.worker.addEventListener('error', function(event) {
   if(confirm(event.message + '\n\nReload the page?')){
     location.reload();
