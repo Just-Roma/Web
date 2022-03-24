@@ -43,7 +43,7 @@
       <div id="Menu">
 
         <h1>Fractal flame</h1>
-        <div class="selectDiv" id="selectDiv1">
+        <div class="selectDiv" id="FunctionsDiv">
           <label for="functions">Fractal type:</label>
           <select name="functions" id="selectFunc">
             <option value="Linear" selected="selected">Linear</option>
@@ -60,7 +60,6 @@
             <option value="Hyperbolic">Hyperbolic</option>
             <option value="Diamond">Diamond</option>
             <option value="Ex">Ex</option>
-            <option value="Julia">Julia</option>
             <option value="Bent">Bent</option>
             <option value="Waves">Waves</option>
             <option value="Fisheye">Fisheye</option>
@@ -87,7 +86,7 @@
         <!-- Each function has an associated number of affine transformations. 
              The options below are for the linear function.
              Changing the type of function("Fractal type") forces the script to change these numbers according to the new choice.-->
-        <div class="selectDiv" id="selectDiv2">
+        <div class="selectDiv" id="AffinesDiv">
           <label for="affines">Magic number:</label>
           <select name="affines" id="selectAffine">
             <option value="4">4</option>
@@ -110,82 +109,87 @@
           </select>
         </div>
 
-        <div class="selectDiv">
+        <div class="selectDiv" id="ButtonsDiv">
           <button class="MainButtons" id="ButtonCreate">Create</button>
           <button class="MainButtons" id="ButtonInfo">Info</button>
         </div>
 
-        <div class="selectDiv" id="dependentParameters">
+        <div class="selectDiv" id="ExtraParametersDiv">
 
-          <p id="dependentParametersParagraph">Dependent parameters:</p>
+          <label for="ExtraParsDiv">Extra Parameters:</label>
+          <div name="ExtraParsDiv">
+            <div id="Blob_Div">
+              <label for="Blob_Div">Waves</label>
+              <textarea name="Blob_Div" id="BlobPar"></textarea>
+            </div>
 
-          <div id="Blob_Div">
-            <label for="Blob_Div">Waves</label>
-            <textarea name="Blob_Div" id="BlobPar"></textarea>
+            <div id="PDJ_Div">
+              <label for="PDJ_Div">Affines(a,b,c,d)</label>
+              <select name="PDJ_Div" id="PDJ_Select_p1">
+                <option value="1">1</option>
+                <option value="2" selected="selected">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              
+              <select name="PDJ_Div" id="PDJ_Select_p2">
+                <option value="1" selected="selected">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              
+              <select name="PDJ_Div" id="PDJ_Select_p3">
+                <option value="1" selected="selected">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              
+              <select name="PDJ_Div" id="PDJ_Select_p4">
+                <option value="1">1</option>
+                <option value="2" selected="selected">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+
+            <div id="JuliaN_Div">
+            <div id="JuliaNPowContainer">
+              <label for="JuliaNPow">Power</label>
+              <select name="JuliaNPow" id="JuliaNPower">
+                <option value="-10">-10</option>
+                <option value="-9">-9</option>
+                <option value="-8">-8</option>
+                <option value="-7">-7</option>
+                <option value="-6">-6</option>
+                <option value="-5">-5</option>
+                <option value="-4">-4</option>
+                <option value="-3">-3</option>
+                <option value="-2">-2</option>
+                <option value="-1">-1</option>
+                <option value="1">1</option>
+                <option value="2" selected="selected">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+            <div id="JuliaNDistContainer">
+              <label for="JuliaNDist">Distance</label>
+              <textarea name="JuliaNDist" id="JuliaNDistance"></textarea>
+            </div>
           </div>
-
-          <div id="PDJ_Div">
-            <label for="PDJ_Div">Affines(a,b,c,d)</label>
-            <select name="PDJ_Div" id="PDJ_Select_p1">
-              <option value="1">1</option>
-              <option value="2" selected="selected">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            
-            <select name="PDJ_Div" id="PDJ_Select_p2">
-              <option value="1" selected="selected">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            
-            <select name="PDJ_Div" id="PDJ_Select_p3">
-              <option value="1" selected="selected">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            
-            <select name="PDJ_Div" id="PDJ_Select_p4">
-              <option value="1">1</option>
-              <option value="2" selected="selected">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-          </div>
-
-          <div id="JuliaN_Div">
-            <label for="JuliaN_Div">Power and distance</label>
-            <select name="JuliaN_Div" id="JuliaNPower">
-              <option value="-10">-10</option>
-              <option value="-9">-9</option>
-              <option value="-8">-8</option>
-              <option value="-7">-7</option>
-              <option value="-6">-6</option>
-              <option value="-5">-5</option>
-              <option value="-4">-4</option>
-              <option value="-3">-3</option>
-              <option value="-2">-2</option>
-              <option value="-1">-1</option>
-              <option value="1">1</option>
-              <option value="2" selected="selected">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-            </select>
-            <textarea name="JuliaN_Div" id="JuliaNDistance"></textarea>
-          </div>
-
+          <div>
         </div>
 
       </div>
