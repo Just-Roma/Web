@@ -2,7 +2,7 @@
 
 /* References to the html elements */
 let InfoPageNode = document.getElementById('infoPage');
-let DependentParametersNode = document.getElementById('dependentParameters');
+let DependentParametersNode = document.getElementById('ExtraParametersDiv');
 let BlobDivNode = document.getElementById('Blob_Div');
 let PDJDivNode = document.getElementById('PDJ_Div');
 let JuliaNDivNode = document.getElementById('JuliaN_Div');
