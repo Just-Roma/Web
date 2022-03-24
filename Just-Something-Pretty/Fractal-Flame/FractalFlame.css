@@ -33,7 +33,7 @@ h1{
 label{
   display:block;
   font-size:calc(0.9vw + 0.9vh);
-  margin-bottom:0.3vh;
+  margin-bottom:0.5vh;
 }
 
 option{
@@ -115,30 +115,31 @@ select{
 /* selectDiv defines the containers within the "Menu", which include different blocks of user-defined parameters */
 .selectDiv{
   width:98%; /* is less than 100% to guarantee the distance between the scroll bar and the elements of the #Menu */
-  /margin-top:4vh;
+  padding-top:2vh;
+  padding-bottom:2vh;
 }
 
-#selectDiv1{
-  margin-bottom:2vh;
+#FunctionsDiv{
+  /padding-bottom:4vh;
+}
+#AffinesDiv{
+  /padding-top:5.1vh;
 }
 /* dependentParameters is the last div block, which includes the function parameters of some functions. */
 /* it will change its "display" state depending on what fumction is currently chosen */
 #dependentParameters{
-  display:none;
-  margin-top:6vh;
+  /display:none;
+  /margin-top:6vh;
 }
 
-#dependentParametersParagraph{
-  font-size:calc(0.9vw + 0.9vh);
-  margin-bottom:2vh;
-}
-
-#Blob_Div, #PDJ_Div, #JuliaN_Div{
+#Blob_Div, #PDJ_Div{ /*#JuliaN_Div{*/
   display:none;
 }
 
-#JuliaNDistance{
-  margin-top:1vh;
+
+
+#JuliaNDistContainer{
+  margin-top:3vh;
 }
 
 /* These clas selectors define the main buttons in the html */
