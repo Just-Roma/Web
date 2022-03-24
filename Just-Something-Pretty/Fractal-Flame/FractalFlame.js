@@ -20,10 +20,11 @@ CanvasNode.height = window.innerHeight;
    "disabled" is for the "Create" button, which can be disabled under certain circumstances(a user is in the Info menu or the first frame is being created)
    "allowed" is associated with the "Info" button, check EventListeners.js for further details.
 */
+
 let common = {'ctx':            CanvasNode.getContext('2d'),
               'width':          CanvasNode.width,
               'height':         CanvasNode.height,
-              'blob':           new Blob([document.querySelector('#worker').textContent], { type: "text/javascript" }),
+              'blob':           new Blob([MyWorker.toString()+"StartWorker();"], { type: "javascript/worker" }),
               'worker':         null,
               'numberOfCoeffs': Number(AffineNode.value),
               'extraPars':      {'a':null, 'b':null, 'c':null, 'd':null, 'e':null, 'f':null, 'p1':null, 'p2':null, 'p3':null, 'p4':null},
@@ -151,7 +152,6 @@ let lookupCoeffs = {'Linear': [4,20],
                     'Hyperbolic': [10,30],
                     'Diamond': [10,30],
                     'Ex': [10,40],
-                    'Julia': [10,40],
                     'Bent': [5,30],
                     'Waves': [10,40],
                     'Fisheye': [15,40],
