@@ -375,8 +375,8 @@ let aaa= performance.now();
     }
 
     // Since the calculation process is very slow, the web worker sends stepwise an actualized frame to the main script.
-    for (let frame = 0; frame < 50; frame++){
-      for (let point = 0; point < 1000000; point++){
+    for (let frame = 0; frame < 1000; frame++){
+      for (let point = 0; point < 50000; point++){
 
         // Create a  a random point in the bi-unit square.
         X = Math.random()*2-1;
