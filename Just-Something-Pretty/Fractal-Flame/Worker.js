@@ -35,53 +35,37 @@ class Matrix{
      To extend the capabilities of the script some other types of parameters can be added to the functions.
   */
   let Functions = {
- <!-- "Linear": {"func": function(x, y, extraPars){ -->
-<!-- let randomN = 1 + Math.round(Math.random()*100); -->
-    <!-- let t_rnd = Math.trunc(extraPars.randomN * Math.random()); -->
+  "Linear": {"func": function(x, y){
+    let weight=Math.random()
+    return [(x+weight)*Math.random(),(y+weight)*Math.random()];
+  }, "scaleX": 5, "scaleY": 5, "setExtraPars": false},
 
-    <!-- let tmpr, r,juliascope_power=0.1+Number((2*Math.random()).toFixed(1)); -->
-    <!-- let teta=Math.atan2(x,y); -->
+  "Flux": {"func": function(x, y){
+    let weight=1
+    let xpw = x + weight;
+    let xmw = x - weight;
 
-    <!-- if ((t_rnd & 1) == 0) -->
-      <!-- tmpr = (2 * Math.PI * t_rnd + teta) / extraPars.juliascope_power; -->
-    <!-- else -->
-      <!-- tmpr = (2 * Math.PI * t_rnd - teta) / extraPars.juliascope_power; -->
-
-<!-- let juliascope_cn=1 -->
-    <!-- r = Math.pow(x*x+y*y, extraPars.juliascope_cn); -->
-
-    <!-- return[r * Math.sin(tmpr), r * Math.cos(tmpr)]; -->
-  <!-- }, "scaleX": 8, "scaleY": 8, "setExtraPars": false}, -->
-      "Linear": {"func": function(x, y){
-  let weight=1
-  let xpw = x + weight;
-let  xmw = x - weight;
-
-let avgr = weight*8* Math.sqrt( Math.sqrt(y*y + xpw*xpw) / Math.sqrt(y*y + xmw*xmw));
-let avga = ( Math.atan2(y, xmw) - Math.atan2(y,xpw) ) * 0.5;
-
-
-
+    let avgr = weight*8* Math.sqrt( Math.sqrt(y*y + xpw*xpw) / Math.sqrt(y*y + xmw*xmw));
+    let avga = ( Math.atan2(y, xmw) - Math.atan2(y,xpw) ) * 0.5;
     return [avgr*Math.cos(avga), avgr * Math.sin(avga)];
   }, "scaleX": 18, "scaleY": 18, "setExtraPars": false},
-  <!-- "Linear": {"func": function(x, y){ -->
-  <!-- let r_factor,theta,phi,b, amp; -->
+  
+  "Liear": {"func": function(x, y){
+    let r_factor,theta,phi,b, amp;
 
-<!-- r_factor = Math.pow(x*x+y*y, 1.567654/2.0); -->
+    r_factor = Math.pow(x*x+y*y, 1.567654/2.0);
 
-<!-- theta = Math.atan2(x,y); -->
-<!-- b = 2*Math.PI/5//26.4;//ngon_sides -->
+    theta = Math.atan2(x,y);
+    b = 2*Math.PI/5//26.4;//ngon_sides
 
-<!-- phi = theta - (b*Math.floor(theta/b)); -->
-<!-- if (phi > b/2) -->
-  <!-- phi -= b; -->
+    phi = theta - (b*Math.floor(theta/b));
+    if (phi > b/2)
+    phi -= b;
 
-<!-- amp=10 * (1.0 / (Math.cos(phi)) - 1.0) +2;//first n is ngoncorners the las is circle -->
-<!-- amp = amp/r_factor ; -->
-
-
-    <!-- return [x*amp, y*amp]; -->
-  <!-- }, "scaleX": 10, "scaleY": 10, "setExtraPars": false}, -->
+    amp=10 * (1.0 / (Math.cos(phi)) - 1.0) +2;//first n is ngoncorners the las is circle
+    amp = amp/r_factor ;
+    return [x*amp, y*amp];
+  }, "scaleX": 10, "scaleY": 10, "setExtraPars": false},
 
   "Sinusoidal": {"func": function(x, y){
     return [Math.sin(x), Math.sin(y)];
@@ -201,6 +185,13 @@ let avga = ( Math.atan2(y, xmw) - Math.atan2(y,xpw) ) * 0.5;
     return [par*Math.cos(Teta), par*Math.sin(Teta)];
   }, "scaleX": 4, "scaleY": 4, "setExtraPars": true},
 
+  "Rings2": {"func": function(x, y, extraPars){
+    let r = Math.sqrt(x*x + y*y);
+    let p = extraPars.p1*extraPars.p1;
+    let t = r - 2*p*Math.trunc((r+p)/(2*p)) + r*(1-p);
+    return [t*(x/r), t*(y/r)];
+  }, "scaleX": 5, "scaleY": 5, "setExtraPars": false},
+
   "Fan": {"func": function(x, y, extraPars){
     let r = Math.sqrt(x*x + y*y);
     let t = Math.PI*extraPars.c*extraPars.c;
@@ -213,11 +204,25 @@ let avga = ( Math.atan2(y, xmw) - Math.atan2(y,xpw) ) * 0.5;
     }
   }, "scaleX": 7, "scaleY": 7, "setExtraPars": true},
 
+  "Fan2": {"func": function(x, y, extraPars){
+    let p1 = extraPars.p1*extraPars.p1*Math.PI;
+    let r = Math.sqrt(x*x + y*y);
+    let Teta = Math.atan2(x,y);
+
+    if (Teta+extraPars.p2-p1*Math.trunc((Teta+extraPars.p2)/p1) > p1*0.5){
+      Teta = Teta-p1*0.5;
+    }
+    else{
+      Teta = Teta+p1*0.5;
+    }
+    return [r*Math.sin(Teta), r*Math.cos(Teta)];
+  }, "scaleX": 7, "scaleY": 7, "setExtraPars": false},
+
   "Blob": {"func": function(x, y, extraPars){
     let Teta = Math.atan2(x, y);
-    let par = Math.sqrt(x*x + y*y)*(0.5 + 1/2 *(Math.sin(extraPars.p3*Teta)+1));
-    return[par*Math.cos(Teta), par*Math.sin(Teta)];
-  }, "scaleX": 10, "scaleY": 10, "setExtraPars": false},
+    let par = Math.sqrt(x*x + y*y)*(0.5 + 0.5*(Math.sin(extraPars.p3*Teta)+1));
+    return[par*Math.sin(Teta), par*Math.cos(Teta)];
+  }, "scaleX": 5, "scaleY": 5, "setExtraPars": false},
 
   "PDJ": {"func": function(x, y, extraPars){
     return[Math.sin(extraPars.p1*y) - Math.cos(extraPars.p2*x), Math.sin(extraPars.p3*x) - Math.cos(extraPars.p4*y)];
@@ -260,6 +265,24 @@ let avga = ( Math.atan2(y, xmw) - Math.atan2(y,xpw) ) * 0.5;
     let tmpr = (Math.atan2(y,x)+2*Math.PI*Math.trunc(Math.abs(extraPars.p1)*Math.random()))/extraPars.p1;
     return[r*Math.cos(tmpr), r*Math.sin(tmpr)];
   }, "scaleX": 5, "scaleY": 5, "setExtraPars": false},
+
+"JuliaScope": {"func": function(x, y, extraPars){
+let randomN = 1 + Math.round(Math.random()*100);
+    let t_rnd = Math.trunc(extraPars.randomN * Math.random());
+
+    let tmpr, r,juliascope_power=0.1+Number((2*Math.random()).toFixed(1));
+    let teta=Math.atan2(x,y);
+
+    if ((t_rnd & 1) == 0)
+      tmpr = (2 * Math.PI * t_rnd + teta) / extraPars.juliascope_power;
+    else
+      tmpr = (2 * Math.PI * t_rnd - teta) / extraPars.juliascope_power;
+
+let juliascope_cn=1
+    r = Math.pow(x*x+y*y, extraPars.juliascope_cn);
+
+    return[r * Math.sin(tmpr), r * Math.cos(tmpr)];
+  }, "scaleX": 8, "scaleY": 8, "setExtraPars": false},
 
   "Butterfly": {"func": function(x, y){  
     let y2 = 2*y;
@@ -362,7 +385,7 @@ let aaa= performance.now();
         // Iterate 5 times without plotting to get closer to the solution. 
         // Larger number of iterations brings the points closer to the final solution, but it also slows down the creation significantly.
         // In theory it can be a distinct user-defined parameter, because low values change the image"s appearence. So the user could choose between 1 and 20 for instance.
-        for (let j = -5; j < 0; j++){
+        for (let j = -8; j < 0; j++){
 
           ranCoef = Math.round(Math.random()*len);
           
