@@ -68,15 +68,15 @@ select{
 /*      Here comes the definition of all the tags within the body      */
 /* These selectors are sorted according to the corresponding html tags */
 
-/* mainPage is the main div container, which holds all the other tags in the body */
-#mainPage{
+/* MainPage is the main div container, which holds all the other tags in the body */
+#MainPage{
   width:100%;
   height:100%;
   display:block;
 }
 
-/* infoPage is the info menu for the user */
-#infoPage{
+/* InfoPage is the info menu for the user */
+#InfoPage{
   width:85%;
   height:100%;
   display:none;
@@ -127,12 +127,12 @@ select{
 }
 /* dependentParameters is the last div block, which includes the function parameters of some functions. */
 /* it will change its "display" state depending on what fumction is currently chosen */
-#dependentParameters{
-  /display:none;
+#ExtraParametersDiv{
+  display:none;
   /margin-top:6vh;
 }
 
-#Blob_Div, #PDJ_Div{ /*#JuliaN_Div{*/
+#Fan2Div, #Rings2Div, #BlobDiv, #PDJDiv, #JuliaNDiv{
   display:none;
 }
 
