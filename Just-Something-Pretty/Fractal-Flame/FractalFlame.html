@@ -4,17 +4,17 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Fractal flame</title>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.css"/>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/Worker.js"  defer></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.js" defer></script>
-    <script type="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/EventListeners.js" defer></script>
+    <link rel="stylesheet" href="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.css"/>
+    <script type="text/javascript" src="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/Worker.js"  defer></script>
+    <script type="text/javascript" src="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/FractalFlame.js" defer></script>
+    <script type="text/javascript" src="text/javascript" src="https://raw.githubusercontent.com/Just-Roma/Web/main/Just-Something-Pretty/Fractal-Flame/EventListeners.js" defer></script>
   </head>
 
   <body>
     
-    <div id="mainPage">
+    <div id="MainPage">
 
-      <div id="infoPage">
+      <div id="InfoPage">
         <p class="infoParagraph"> The main intention of this page is to create aesthetically pleasing images. 
           Though most of results will be interesting/beautuful, there is a chance that something weird/ugly will be produced.
           In that case just click on the "Create" button and wait for the next result.
@@ -68,7 +68,9 @@
             <option value="Power">Power</option>
             <option value="Cosine">Cosine</option>
             <option value="Rings">Rings</option>
+            <option value="Rings2">Rings2</option>
             <option value="Fan">Fan</option>
+            <option value="Fan2">Fan2</option>
             <option value="Blob">Blob</option>
             <option value="PDJ">PDJ</option>
             <option value="Pipe">Pipe</option>
@@ -118,80 +120,96 @@
 
           <label for="ExtraParsDiv">Extra Parameters:</label>
           <div name="ExtraParsDiv">
-            <div id="Blob_Div">
+          
+            <div id="Fan2Div">
+              <label for="Fan2_x">x parameter</label>
+                <textarea name="Fan2_x" id="Fan2X">0.1</textarea>
+              <label for="Fan2_x">y parameter</label>
+                <textarea name="Fan2_y" id="Fan2Y">0.1</textarea>
+            </div>
+
+            <div id="Rings2Div">
+              <label for="Rings2Area">rings</label>
+                <textarea name="Rings2Area" id="Rings2val">0.2</textarea>
+            </div>
+
+            <div id="BlobDiv">
               <label for="Blob_Div">Waves</label>
               <textarea name="Blob_Div" id="BlobPar"></textarea>
             </div>
 
-            <div id="PDJ_Div">
+            <div id="PDJDiv">
               <label for="PDJ_Div">Affines(a,b,c,d)</label>
-              <select name="PDJ_Div" id="PDJ_Select_p1">
-                <option value="1">1</option>
-                <option value="2" selected="selected">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              
-              <select name="PDJ_Div" id="PDJ_Select_p2">
-                <option value="1" selected="selected">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              
-              <select name="PDJ_Div" id="PDJ_Select_p3">
-                <option value="1" selected="selected">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              
-              <select name="PDJ_Div" id="PDJ_Select_p4">
-                <option value="1">1</option>
-                <option value="2" selected="selected">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
+              <div name="PDJ_Div">
+                <select id="PDJ_Select_p1">
+                  <option value="1">1</option>
+                  <option value="2" selected="selected">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                
+                <select id="PDJ_Select_p2">
+                  <option value="1" selected="selected">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                
+                <select id="PDJ_Select_p3">
+                  <option value="1" selected="selected">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+                
+                <select id="PDJ_Select_p4">
+                  <option value="1">1</option>
+                  <option value="2" selected="selected">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
             </div>
 
-            <div id="JuliaN_Div">
-            <div id="JuliaNPowContainer">
-              <label for="JuliaNPow">Power</label>
-              <select name="JuliaNPow" id="JuliaNPower">
-                <option value="-10">-10</option>
-                <option value="-9">-9</option>
-                <option value="-8">-8</option>
-                <option value="-7">-7</option>
-                <option value="-6">-6</option>
-                <option value="-5">-5</option>
-                <option value="-4">-4</option>
-                <option value="-3">-3</option>
-                <option value="-2">-2</option>
-                <option value="-1">-1</option>
-                <option value="1">1</option>
-                <option value="2" selected="selected">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-              </select>
-            </div>
-            <div id="JuliaNDistContainer">
-              <label for="JuliaNDist">Distance</label>
-              <textarea name="JuliaNDist" id="JuliaNDistance"></textarea>
+            <div id="JuliaNDiv">
+              <div id="JuliaNPowContainer">
+                <label for="JuliaNPow">Power</label>
+                <select name="JuliaNPow" id="JuliaNPower">
+                  <option value="-10">-10</option>
+                  <option value="-9">-9</option>
+                  <option value="-8">-8</option>
+                  <option value="-7">-7</option>
+                  <option value="-6">-6</option>
+                  <option value="-5">-5</option>
+                  <option value="-4">-4</option>
+                  <option value="-3">-3</option>
+                  <option value="-2">-2</option>
+                  <option value="-1">-1</option>
+                  <option value="1">1</option>
+                  <option value="2" selected="selected">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+
+              <div id="JuliaNDistContainer"> 
+                <label for="JuliaNDist">Distance</label>
+                <textarea name="JuliaNDist" id="JuliaNDistance">-7</textarea>
+              </div>
             </div>
           </div>
-          <div>
-        </div>
 
+        </div>
       </div>
     </div>
   </body>
