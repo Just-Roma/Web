@@ -1,26 +1,28 @@
 "use static"
 
-let MyWorker=function StartWorker(){
-class Matrix{
+// The whole worker's code is wrapped in StartWorker function.
+function StartWorker(){
 
-  constructor(width, height) {
-    this.width = width;
-    this.height = height;
-    // Each entry stores RGB(first 3 positions) and a counter(how many times a pixel was hit).
-    this.entries = Array.from({length: width*height*4}, () => 0);
-  }
-    
-  get(x, y) {return this.entries[y*this.width*4 + x*4+3];}	
+  class Matrix{
 
-  // Set RGB. There can be different ways. This one just sums up the color values.
-  set(x, y, value){
-    this.entries[y*this.width*4 + x*4]   += value[0];
-    this.entries[y*this.width*4 + x*4+1] += value[1];
-    this.entries[y*this.width*4 + x*4+2] += value[2];
-  }
+    constructor(width, height) {
+      this.width = width;
+      this.height = height;
+      // Each entry stores RGB(first 3 positions) and a counter(how many times a pixel was hit).
+      this.entries = Array.from({length: width*height*4}, () => 0);
+    }
+      
+    get(x, y) {return this.entries[y*this.width*4 + x*4+3];}	
 
-  // Increases the counter.
-    inc(x, y) {this.entries[y*this.width*4 + x*4+3]++;}
+    // Set RGB. There can be different ways. This one just sums up the color values.
+    set(x, y, value){
+      this.entries[y*this.width*4 + x*4]   += value[0];
+      this.entries[y*this.width*4 + x*4+1] += value[1];
+      this.entries[y*this.width*4 + x*4+2] += value[2];
+    }
+
+    // Increases the counter.
+      inc(x, y) {this.entries[y*this.width*4 + x*4+3]++;}
   }
 
   
@@ -35,11 +37,16 @@ class Matrix{
      To extend the capabilities of the script some other types of parameters can be added to the functions.
   */
   let Functions = {
+    
   "Linear": {"func": function(x, y){
+    return [x, y];
+  }, "scaleX": 6, "scaleY": 6, "setExtraPars": false},
+  
+  "Square": {"func": function(x, y){
     let weight=Math.random()
     return [(x+weight)*Math.random(),(y+weight)*Math.random()];
   }, "scaleX": 5, "scaleY": 5, "setExtraPars": false},
-
+/*
   "Flux": {"func": function(x, y){
     let weight=1
     let xpw = x + weight;
@@ -50,7 +57,7 @@ class Matrix{
     return [avgr*Math.cos(avga), avgr * Math.sin(avga)];
   }, "scaleX": 18, "scaleY": 18, "setExtraPars": false},
   
-  "Liear": {"func": function(x, y){
+  "Ngon": {"func": function(x, y){
     let r_factor,theta,phi,b, amp;
 
     r_factor = Math.pow(x*x+y*y, 1.567654/2.0);
@@ -62,11 +69,11 @@ class Matrix{
     if (phi > b/2)
     phi -= b;
 
-    amp=10 * (1.0 / (Math.cos(phi)) - 1.0) +2;//first n is ngoncorners the las is circle
+    amp=10 * (1.0 / (Math.cos(phi)) - 1.0) +2;//first n is ngoncorners the last is circle
     amp = amp/r_factor ;
     return [x*amp, y*amp];
   }, "scaleX": 10, "scaleY": 10, "setExtraPars": false},
-
+*/
   "Sinusoidal": {"func": function(x, y){
     return [Math.sin(x), Math.sin(y)];
   }, "scaleX": 2.5, "scaleY": 2.5, "setExtraPars": false},
@@ -265,9 +272,9 @@ class Matrix{
     let tmpr = (Math.atan2(y,x)+2*Math.PI*Math.trunc(Math.abs(extraPars.p1)*Math.random()))/extraPars.p1;
     return[r*Math.cos(tmpr), r*Math.sin(tmpr)];
   }, "scaleX": 5, "scaleY": 5, "setExtraPars": false},
-
-"JuliaScope": {"func": function(x, y, extraPars){
-let randomN = 1 + Math.round(Math.random()*100);
+/*
+  "JuliaScope": {"func": function(x, y, extraPars){
+    let randomN = 1 + Math.round(Math.random()*100);
     let t_rnd = Math.trunc(extraPars.randomN * Math.random());
 
     let tmpr, r,juliascope_power=0.1+Number((2*Math.random()).toFixed(1));
@@ -283,7 +290,7 @@ let juliascope_cn=1
 
     return[r * Math.sin(tmpr), r * Math.cos(tmpr)];
   }, "scaleX": 8, "scaleY": 8, "setExtraPars": false},
-
+*/
   "Butterfly": {"func": function(x, y){  
     let y2 = 2*y;
     let r = 1.3029400317411197908970256609023 * Math.sqrt(Math.abs(x*y)/(x*x+y2*y2));
@@ -307,18 +314,11 @@ let juliascope_cn=1
     return[x, y];
   }, "scaleX": 5, "scaleY": 5, "setExtraPars": false},
   
-  "Foci": {"func": function(x, y){  
-    let expx = Math.exp(x)*0.5;
-    let expnx = 0.25/expx;
-    let tmp = 1/(expx + expnx - Math.cos(y));
-    return[ tmp * (expx - expnx),tmp * Math.sin(y)];
-  }, "scaleX": 12.5, "scaleY": 12.5, "setExtraPars": false},
-  
   }
   
-  // This is the part where the main job is done. All the algorithms from the Scott Drave"s paper are here.
+  // This is the part where the main job is done. All the algorithms from the Scott Drave's paper are here.
   self.onmessage = function(message){
-let aaa= performance.now();
+
     /* All the necessary for the calculations variables are defined here. */ 
     let width  = message.data[0];
     let height = message.data[1];
@@ -369,7 +369,7 @@ let aaa= performance.now();
         offsetY = Math.floor(height/3);
         break;
 
-      default: 
+      default:
         offsetX = 0;//-width/2;
         offsetY = 0;
     }
@@ -378,14 +378,14 @@ let aaa= performance.now();
     for (let frame = 0; frame < 1000; frame++){
       for (let point = 0; point < 50000; point++){
 
-        // Create a  a random point in the bi-unit square.
+        // Create a random point in the bi-unit square.
         X = Math.random()*2-1;
         Y = Math.random()*2-1;
 
         // Iterate 5 times without plotting to get closer to the solution. 
         // Larger number of iterations brings the points closer to the final solution, but it also slows down the creation significantly.
         // In theory it can be a distinct user-defined parameter, because low values change the image"s appearence. So the user could choose between 1 and 20 for instance.
-        for (let j = -8; j < 0; j++){
+        for (let j = -20; j < 0; j++){
 
           ranCoef = Math.round(Math.random()*len);
           
@@ -452,6 +452,5 @@ let aaa= performance.now();
     }
     
     self.postMessage(true);
-    console.log((performance.now()-aaa)/1000)
   }
 }
