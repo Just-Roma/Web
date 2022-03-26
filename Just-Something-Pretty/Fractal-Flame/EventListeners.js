@@ -1,6 +1,8 @@
 "use strict";
 
-/* References to the html elements */
+/* --------------------------------------------------------- */
+/*          References to the html elements                  */
+
 let InfoPageNode = document.getElementById('InfoPage');
 let ExtraParametersNode = document.getElementById('ExtraParametersDiv');
 
@@ -11,10 +13,10 @@ let BlobDivNode = document.getElementById('BlobDiv');
 let PDJDivNode = document.getElementById('PDJDiv');
 let JuliaNDivNode = document.getElementById('JuliaNDiv');
 
-// Functions' parameters nodes(selects, textareas...).
 let ButtonCreateNode = document.getElementById('ButtonCreate');
 let ButtonInfoNode = document.getElementById('ButtonInfo');
 
+// Functions' parameters nodes(selects, textareas...).
 let Fan2XParNode = document.getElementById('Fan2X');
 let Fan2YParNode = document.getElementById('Fan2Y');
 
@@ -30,6 +32,9 @@ let PDJNodePar4 = document.getElementById('PDJ_Select_p4');
 let JuliaNPowerParNode = document.getElementById('JuliaNPower');
 let JuliaNDistanceParNode = document.getElementById('JuliaNDistance');
 
+
+/* --------------------------------------------------------- */
+/*              Miscellaneous event listeners                */
 
 window.addEventListener('resize', 
 () => {
@@ -128,9 +133,9 @@ AffineNode.addEventListener('change',
 });
 
 
-/* ---------------------------------------------------------------------------------------- */
-/* The event listeners for the blocks(divs) of functions' extra parameters are defined here */
 
+/* ------------------------------------------------------------------------------------- */
+/* The event listeners for the blocks(divs) and input elements. ExtraParametersDiv html. */
 
 // Fan2's x and y parameters.
 Fan2XParNode.addEventListener('change',
@@ -155,7 +160,6 @@ Fan2YParNode.addEventListener('change',
       Fan2YParNode.value = common.extraPars.p2;
     }
 });
-
 
 // Rings2's parameter.
 Rings2ParNode.addEventListener('change',
@@ -225,7 +229,6 @@ JuliaNDistanceParNode.addEventListener('change',
       }
     }
 });
-/*__________________________________________________________________________________*/
 
 
 /* -------------------------------------------------------------------------------- */
