@@ -24,7 +24,7 @@ CanvasNode.height = window.innerHeight;
 let common = {'ctx':            CanvasNode.getContext('2d'),
               'width':          CanvasNode.width,
               'height':         CanvasNode.height,
-              'blob':           new Blob([MyWorker.toString()+"StartWorker();"], { type: "javascript/worker" }),
+              'blob':           new Blob([StartWorker.toString()+"StartWorker();"], { type: "javascript/worker" }),
               'worker':         null,
               'numberOfCoeffs': Number(AffineNode.value),
               'extraPars':      {'a':null, 'b':null, 'c':null, 'd':null, 'e':null, 'f':null, 'p1':null, 'p2':null, 'p3':null, 'p4':null},
@@ -174,5 +174,6 @@ let lookupCoeffs = {'Linear': [4,20],
                     'JuliaN': [10,30],
                     'Butterfly': [10,30],
                     'Foci': [10,20],
-                    'Loonie': [10,20]
+                    'Loonie': [10,20],
+                    'Square': [10,20],
 }
