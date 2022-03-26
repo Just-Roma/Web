@@ -385,7 +385,7 @@ let juliascope_cn=1
         // Iterate 5 times without plotting to get closer to the solution. 
         // Larger number of iterations brings the points closer to the final solution, but it also slows down the creation significantly.
         // In theory it can be a distinct user-defined parameter, because low values change the image"s appearence. So the user could choose between 1 and 20 for instance.
-        for (let j = -20; j < 0; j++){
+        for (let j = -10; j < 0; j++){
 
           ranCoef = Math.round(Math.random()*len);
           
