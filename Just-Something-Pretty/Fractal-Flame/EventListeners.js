@@ -42,7 +42,6 @@ window.addEventListener('resize',
   CanvasNode.height = window.innerHeight;
   common.width  = CanvasNode.width;
   common.height = CanvasNode.height;
-  common.Image = common.ctx.createImageData(common.width, common.height);
   modifyWorker();
 });
 
